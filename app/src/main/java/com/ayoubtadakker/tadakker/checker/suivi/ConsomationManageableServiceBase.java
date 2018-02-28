@@ -1,5 +1,9 @@
 package com.ayoubtadakker.tadakker.checker.suivi;
 
+import android.content.Context;
+
+import com.ayoubtadakker.tadakker.database.localDB.DBHandler;
+
 import java.util.List;
 
 /**
@@ -7,9 +11,15 @@ import java.util.List;
  */
 
 public class ConsomationManageableServiceBase implements ConsomationManageableService {
+    private DBHandler db;
+
+    public ConsomationManageableServiceBase(Context context){
+        db=new DBHandler(context);
+    }
+
     @Override
     public void create(Consomation entity) {
-
+        //db.crea
     }
 
     @Override
@@ -33,7 +43,7 @@ public class ConsomationManageableServiceBase implements ConsomationManageableSe
     }
 
     @Override
-    public List<Consomation> readAll() {
+    public List<Consomation> readAll(int user_id) {
         return null;
     }
 }

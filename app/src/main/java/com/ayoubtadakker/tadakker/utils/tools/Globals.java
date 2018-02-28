@@ -10,4 +10,5 @@ import java.text.SimpleDateFormat;
 public class Globals {
 
     public static final DateFormat DATE_FORMAT=new SimpleDateFormat("yyyy-MM-dd");
+    public static final String SENTRY_KEY="https://48e40ec87c984307a8a9c5555052c236:a2a823ed626344b3a451a21818b95bbc@sentry.io/296264";
 }

@@ -8,7 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.ayoubtadakker.tadakker.checker.compagne.User;
+import com.ayoubtadakker.tadakker.checker.suivi.Consomation;
+import com.ayoubtadakker.tadakker.utils.tools.Globals;
+import com.ayoubtadakker.tadakker.utils.tools.Logger;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -38,7 +42,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("Drop table IF EXISTS CONSOMATION");
     }
 
-    public void createUser(User user)
+    public Long createUser(User user)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
@@ -47,7 +51,8 @@ public class DBHandler extends SQLiteOpenHelper {
         contentValues.put("PHOTO", String.valueOf(user.getPhoto()));
         contentValues.put("FIRST_NAME",user.getFirst_name());
         contentValues.put("LAST_NAME",user.getLast_name());
-        db.insert("USER",null,contentValues);
+        Long res=db.insert("USER",null,contentValues);
+        return res;
     }
 
     public void deleteUsers(){
@@ -79,7 +84,7 @@ public class DBHandler extends SQLiteOpenHelper {
     {
         User user=null;
         SQLiteDatabase db=this.getReadableDatabase();
-        Cursor res=db.rawQuery("select * from USER WHERE USERNAME=? AND PASSWORD=?",new String [] {username,password});
+        Cursor res=db.rawQuery("select * from USER WHERE USERNAME= ? AND PASSWORD= ?",new String [] {username,password});
         res.moveToFirst();
         while(res.isAfterLast()==false)
         {
@@ -93,5 +98,44 @@ public class DBHandler extends SQLiteOpenHelper {
             res.moveToNext();
         };
         return user;
+    }
+
+    public Consomation getConsomation(int id){
+        Consomation entity=null;
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor res=db.rawQuery("select * from CONSOMATION WHERE ID=? ",new String [] {String.valueOf(id)});
+        res.moveToFirst();
+        while(res.isAfterLast()==false)
+        {
+            int ID=res.getInt(res.getColumnIndex("ID"));
+            String PRODUCT_NAME=res.getString(res.getColumnIndex("PRODUCT_NAME"));
+            String PRODUCT_DESCRIPTION=res.getString(res.getColumnIndex("PRODUCT_DESCRIPTION"));
+            Double PRICE=res.getDouble(res.getColumnIndex("PRICE"));
+            int QTE=res.getInt(res.getColumnIndex("QTE"));
+            String DATE=res.getString(res.getColumnIndex("DATE"));
+            int USER_FK=res.getInt(res.getColumnIndex("USER_FK"));
+            java.util.Date dt=new java.util.Date();
+            try {
+                dt=Globals.DATE_FORMAT.parse(DATE);
+            }catch (ParseException e){
+                Logger.ERROR(e);
+            }
+            entity=new Consomation(ID,PRODUCT_NAME,PRODUCT_DESCRIPTION,QTE,PRICE,dt,USER_FK);
+            res.moveToNext();
+        };
+        return entity;
+    }
+
+    public Long CreateCOnsomation(Consomation entity){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("PRODUCT_NAME",entity.getName());
+        contentValues.put("PRODUCT_DESCRIPTION",entity.getDescription());
+        contentValues.put("PRICE", String.valueOf(entity.getPrice()));
+        contentValues.put("QTE",entity.getQte());
+        contentValues.put("DATE", Globals.DATE_FORMAT.format(entity.getDate()));
+        contentValues.put("USER_FK",entity.getUser_fk());
+        Long res=db.insert("CONSOMATION",null,contentValues);
+        return res;
     }
 }

@@ -1,5 +1,6 @@
 package com.ayoubtadakker.tadakker.beans.security;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +16,13 @@ import com.ayoubtadakker.tadakker.beans.main.MainActivity;
 import com.ayoubtadakker.tadakker.checker.Cryptor;
 import com.ayoubtadakker.tadakker.checker.compagne.User;
 import com.ayoubtadakker.tadakker.database.localDB.DBHandler;
+import com.ayoubtadakker.tadakker.utils.tools.Globals;
+import com.ayoubtadakker.tadakker.utils.tools.Logger;
 
 import java.util.List;
+
+import io.sentry.Sentry;
+import io.sentry.android.AndroidSentryClientFactory;
 
 /**
  * A login screen that offers login via email/password.
@@ -38,12 +44,17 @@ public class LoginActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        //Initialize sentry
+        Context ctx = this.getApplicationContext();
+        Sentry.init(Globals.SENTRY_KEY, new AndroidSentryClientFactory(this));
+
+
         // Set up the login form.
         txtUserName = (TextView) findViewById(R.id.login_username);
         txtPassword = (EditText) findViewById(R.id.login_password);
         mProgressBar=(ProgressBar)findViewById(R.id.login_progress);
-
-
 
         List<User> list=db.getUsers();
         if(list==null){
