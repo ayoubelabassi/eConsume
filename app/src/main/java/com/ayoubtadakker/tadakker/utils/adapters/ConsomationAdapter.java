@@ -57,12 +57,12 @@ public class ConsomationAdapter extends BaseAdapter {
             inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             gridView=inflater.inflate(R.layout.consomation_view,null);
 
-            TextView date=(TextView)gridView.findViewById(R.id.consomation_date);
+            TextView tot=(TextView)gridView.findViewById(R.id.consomation_tot);
             TextView name=(TextView)gridView.findViewById(R.id.consomation_name);
             TextView prix=(TextView)gridView.findViewById(R.id.consomation_prix);
             TextView qte=(TextView)gridView.findViewById(R.id.consomation_qte);
 
-            date.setText(Globals.dateFormat.format(consomationList.get(i).getDate()));
+            tot.setText(String.valueOf(consomationList.get(i).getPrice()*consomationList.get(i).getQte()));
             name.setText(consomationList.get(i).getName());
             prix.setText(String.valueOf(consomationList.get(i).getPrice()));
             qte.setText(String.valueOf(consomationList.get(i).getQte()));

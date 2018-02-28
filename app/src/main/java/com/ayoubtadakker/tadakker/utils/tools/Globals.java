@@ -8,5 +8,6 @@ import java.text.SimpleDateFormat;
  */
 
 public class Globals {
-    public static DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+
+    public static final DateFormat DATE_FORMAT=new SimpleDateFormat("yyyy-MM-dd");
 }
