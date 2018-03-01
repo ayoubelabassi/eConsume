@@ -89,16 +89,17 @@
         </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <GridView
-            android:id="@+id/addConsumation_grid"
+
+        <ListView
+            android:id="@+id/addConsomation_listview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="1" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </LinearLayout>

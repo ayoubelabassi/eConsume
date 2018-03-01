@@ -55,7 +55,7 @@ public class ConsomationAdapter extends BaseAdapter {
         View gridView=view;
         if(view==null){
             inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            gridView=inflater.inflate(R.layout.consomation_view,null);
+            gridView=inflater.inflate(R.layout.add_consomation,null);
 
             TextView tot=(TextView)gridView.findViewById(R.id.consomation_tot);
             TextView name=(TextView)gridView.findViewById(R.id.consomation_name);
