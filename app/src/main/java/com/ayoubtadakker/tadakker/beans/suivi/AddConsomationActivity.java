@@ -20,6 +20,7 @@ import com.ayoubtadakker.tadakker.utils.tools.Globals;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +28,7 @@ import java.util.List;
  * Created by AYOUB on 26/02/2018.
  */
 
-public class AddConsomationActivity extends Activity {
+public class AddConsomationActivity extends Activity{
     private EditText txtName;
     private EditText txtDescription;
     private EditText txtPrice;
@@ -51,7 +52,6 @@ public class AddConsomationActivity extends Activity {
         txtDescription=(EditText)findViewById(R.id.addConsumation_description);
         txtQTE=(EditText)findViewById(R.id.addConsumation_qte);
         txtPrice=(EditText)findViewById(R.id.addConsumation_price);
-
         //btnCalendar=(Button)findViewById(R.id.addConsumation_btnCalendar);
 
         btnCalendar=(Button) findViewById(R.id.addConsumation_btnCalendar);
@@ -59,6 +59,8 @@ public class AddConsomationActivity extends Activity {
         year=cal.get(Calendar.YEAR);
         month=cal.get(Calendar.MONTH);
         day=cal.get(Calendar.DAY_OF_MONTH);
+
+
         btnCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,15 +80,8 @@ public class AddConsomationActivity extends Activity {
         consomations.add(new Consomation(4,"BASTA","",5,5,date,1));
         consomations.add(new Consomation(5,"RICH","",3,10,date,1));
 
+        listView.setDivider(null);
         listView.setAdapter(new ConsomationAdapter(this,consomations));
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                consomation=consomations.get(position);
-                updateForm();
-            }
-        });
     }
 
     private void updateForm(){
