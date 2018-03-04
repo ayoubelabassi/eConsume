@@ -45,12 +45,7 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-        //Initialize sentry
-        Context ctx = this.getApplicationContext();
         Sentry.init(Globals.SENTRY_KEY, new AndroidSentryClientFactory(this));
-
-
         // Set up the login form.
         txtUserName = (TextView) findViewById(R.id.login_username);
         txtPassword = (EditText) findViewById(R.id.login_password);
@@ -82,7 +77,7 @@ public class LoginActivity extends AppCompatActivity{
             attemptLogin();
             mProgressBar.setVisibility(View.INVISIBLE);
         }catch (Exception e){
-            Toast.makeText(this,e.getMessage() ,Toast.LENGTH_LONG).show();
+            Logger.ERROR(e);
         }
     }
 
@@ -95,35 +90,29 @@ public class LoginActivity extends AppCompatActivity{
         String username = txtUserName.getText().toString();
         String password = txtPassword.getText().toString();
 
-        boolean cancel = false;
-
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            txtPassword.setError(getString(R.string.error_invalid_password));
-            cancel = true;
+            txtPassword.setError(getString(R.string.login_password_error));
+            return;
         }
 
         // Check for a valid username address.
         if (TextUtils.isEmpty(username)) {
-            txtUserName.setError(getString(R.string.error_field_required));
-            cancel = true;
+            txtUserName.setError(getString(R.string.login_username_error));
+            return;
         } else if (!isEmailValid(username)) {
-            txtUserName.setError(getString(R.string.error_invalid_email));
+            txtUserName.setError(getString(R.string.login_username_error));
+            return;
         }
 
         //check the existance of user in database
         User user=db.getUser(username,Cryptor.encrypt(password));
-        List<User> list=db.getUsers();
-        //Toast.makeText(this,"password : "+Cryptor.encrypt(password) ,Toast.LENGTH_LONG).show();
         if(user!=null){
-            Bundle b=new Bundle();
-            b.putInt("USER_ID",user.getId());
-            Intent intent=new Intent(this,MainActivity.class);
-            intent.putExtras(b);
-            startActivity(intent);
+            Globals.CURRENT_USER=user;
+            startActivity(new Intent(this,MainActivity.class));
         }else{
-            txtUserName.setError(getString(R.string.error_field_required));
-            txtUserName.setError(getString(R.string.error_invalid_email));
+            txtUserName.setError(getString(R.string.login_failed));
+            txtPassword.setError(getString(R.string.login_failed));
         }
     }
 

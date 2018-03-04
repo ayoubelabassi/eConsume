@@ -30,7 +30,7 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme"></activity>
         <activity
-            android:name=".beans.suivi.AddConsomationActivity"
+            android:name=".beans.suivi.ConsomationsActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme"></activity>
     </application>

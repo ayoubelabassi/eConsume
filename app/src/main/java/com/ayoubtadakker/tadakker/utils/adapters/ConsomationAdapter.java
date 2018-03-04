@@ -1,28 +1,21 @@
 package com.ayoubtadakker.tadakker.utils.adapters;
 
+import android.app.Activity;
 import android.content.Context;
-import android.database.DataSetObserver;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.ayoubtadakker.tadakker.R;
-import com.ayoubtadakker.tadakker.checker.suivi.Consomation;
+import com.ayoubtadakker.tadakker.beans.suivi.add_consomation;
+import com.ayoubtadakker.tadakker.checker.suivi.consomation.Consomation;
 import com.ayoubtadakker.tadakker.utils.tools.Globals;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.ayoubtadakker.tadakker.R.layout.consomation_view;
 
 /**
  * Created by AYOUB on 26/02/2018.
@@ -55,49 +48,44 @@ public class ConsomationAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
+    public View getView(final int position, View view, ViewGroup viewGroup) {
         LayoutInflater layoutInflater= LayoutInflater.from(context);
         View listView=layoutInflater.inflate(R.layout.consomation_view,null);
         if(listView!=null){
-            TextView tot=(TextView)listView.findViewById(R.id.consomation_tot);
-            TextView name=(TextView)listView.findViewById(R.id.consomation_name);
-            TextView prix=(TextView)listView.findViewById(R.id.consomation_prix);
-            TextView qte=(TextView)listView.findViewById(R.id.consomation_qte);
-            ImageButton btnDelete=(ImageButton)listView.findViewById(R.id.consomation_btnDelete);
+            EditText txt_desc=(EditText)listView.findViewById(R.id.consomation_description);
+            EditText txt_date=(EditText)listView.findViewById(R.id.consomation_date);
+            EditText txt_tot=(EditText)listView.findViewById(R.id.consomation_tot);
+            EditText txt_name=(EditText)listView.findViewById(R.id.consomation_name);
+            EditText txt_price=(EditText)listView.findViewById(R.id.consomation_prix);
+            EditText txt_qte=(EditText)listView.findViewById(R.id.consomation_qte);
+            Button btnDelete=(Button)listView.findViewById(R.id.consomation_btn_delete);
+            Button btnEdit=(Button)listView.findViewById(R.id.consomation_btn_edit);
 
-            tot.setText(String.valueOf(consomationList.get(i).getPrice()*consomationList.get(i).getQte()));
-            name.setText(consomationList.get(i).getName());
-            prix.setText(String.valueOf(consomationList.get(i).getPrice()));
-            qte.setText(String.valueOf(consomationList.get(i).getQte()));
-
+            txt_date.setText(Globals.DATE_FORMAT.format(consomationList.get(position).getDate()));
+            txt_desc.setText(consomationList.get(position).getDescription());
+            txt_tot.setText(String.valueOf(consomationList.get(position).getPrice()*consomationList.get(position).getQte()));
+            txt_name.setText(consomationList.get(position).getName());
+            txt_price.setText(String.valueOf(consomationList.get(position).getPrice()));
+            txt_qte.setText(String.valueOf(consomationList.get(position).getQte()));
 
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    updateForm(consomationList.get(i));
+                }
+            });
+
+            btnEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    add_consomation add_consomation=new add_consomation();
+                    add_consomation.setConsomation(consomationList.get(position));
+                    add_consomation.setOperation(Globals.EDIT_OP);
+                    add_consomation.setContext(context);
+                    add_consomation.show(((Activity)context).getFragmentManager(),"Edit Consomation");
                 }
             });
         }
         return listView;
-    }
-
-    private void updateForm(Consomation consomation){
-        if(consomation!=null){
-            LayoutInflater layoutInflater= LayoutInflater.from(context);
-            View view=layoutInflater.inflate(R.layout.add_consomation,null);
-            EditText txtDate=(EditText)view.findViewById(R.id.addConsumation_date);
-            EditText txtPrice=(EditText)view.findViewById(R.id.addConsumation_price);
-            EditText txtName=(EditText)view.findViewById(R.id.addConsumation_name);
-            EditText txtDescription=(EditText)view.findViewById(R.id.addConsumation_description);
-            EditText txtQTE=(EditText)view.findViewById(R.id.addConsumation_qte);
-
-
-            txtDate.setText(Globals.DATE_FORMAT.format(consomation.getDate()));
-            txtDescription.setText(consomation.getDescription());
-            txtName.setText(consomation.getName());
-            txtPrice.setText(new DecimalFormat("$##.##").format(consomation.getPrice()));
-            //txtQTE.setText(consomation.getQte());
-        }
     }
 }

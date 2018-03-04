@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.ayoubtadakker.tadakker.checker.compagne.User;
-import com.ayoubtadakker.tadakker.checker.suivi.Consomation;
+import com.ayoubtadakker.tadakker.checker.suivi.consomation.Consomation;
 import com.ayoubtadakker.tadakker.utils.tools.Globals;
 import com.ayoubtadakker.tadakker.utils.tools.Logger;
 

@@ -16,6 +16,7 @@
         android:id="@+id/mainActivity_userImg"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:background="@drawable/circle_image"
         android:contentDescription="@string/main_activity.side_menu.user_photo_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         app:srcCompat="@drawable/ic_menu_camera" />

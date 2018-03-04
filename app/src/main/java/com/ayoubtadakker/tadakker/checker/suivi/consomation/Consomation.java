@@ -1,4 +1,4 @@
-package com.ayoubtadakker.tadakker.checker.suivi;
+package com.ayoubtadakker.tadakker.checker.suivi.consomation;
 
 import com.ayoubtadakker.tadakker.checker.compagne.User;
 

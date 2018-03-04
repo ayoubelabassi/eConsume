@@ -6,21 +6,18 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.ayoubtadakker.tadakker.R;
-import com.ayoubtadakker.tadakker.checker.suivi.Consomation;
+import com.ayoubtadakker.tadakker.checker.suivi.consomation.Consomation;
 import com.ayoubtadakker.tadakker.utils.adapters.ConsomationAdapter;
-import com.ayoubtadakker.tadakker.utils.tools.Globals;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -28,11 +25,7 @@ import java.util.List;
  * Created by AYOUB on 26/02/2018.
  */
 
-public class AddConsomationActivity extends Activity{
-    private EditText txtName;
-    private EditText txtDescription;
-    private EditText txtPrice;
-    private EditText txtQTE;
+public class ConsomationsActivity extends Activity{
     private EditText txtDate;
     private ListView listView;
     private Button btnCalendar;
@@ -45,33 +38,30 @@ public class AddConsomationActivity extends Activity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_consomation);
+        setContentView(R.layout.activity_consomations);
         listView=(ListView)findViewById(R.id.addConsomation_listview);
-        txtName=(EditText)findViewById(R.id.addConsumation_name);
         txtDate=(EditText)findViewById(R.id.addConsumation_date);
-        txtDescription=(EditText)findViewById(R.id.addConsumation_description);
-        txtQTE=(EditText)findViewById(R.id.addConsumation_qte);
-        txtPrice=(EditText)findViewById(R.id.addConsumation_price);
-        //btnCalendar=(Button)findViewById(R.id.addConsumation_btnCalendar);
 
-        btnCalendar=(Button) findViewById(R.id.addConsumation_btnCalendar);
         cal=Calendar.getInstance();
         year=cal.get(Calendar.YEAR);
         month=cal.get(Calendar.MONTH);
         day=cal.get(Calendar.DAY_OF_MONTH);
 
 
-        btnCalendar.setOnClickListener(new View.OnClickListener() {
+        txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDialog(DIALOG_ID);
+                InputMethodManager imm = (InputMethodManager)getSystemService(android.content.Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(txtDate.getWindowToken(), 0);
             }
         });
         consomation=new Consomation();
         consomations= new ArrayList<Consomation>();
+        fillConsomations();
     }
 
-    public void addConsomationEvent(View view) {
+    public void fillConsomations() {
 
         Date date=new Date();
         consomations.add(new Consomation(1,"Danone","rah ghir danone",2,2.3,date,1));
@@ -82,16 +72,6 @@ public class AddConsomationActivity extends Activity{
 
         listView.setDivider(null);
         listView.setAdapter(new ConsomationAdapter(this,consomations));
-    }
-
-    private void updateForm(){
-        if(consomation!=null){
-            txtDate.setText(Globals.DATE_FORMAT.format(consomation.getDate()));
-            txtDescription.setText(consomation.getDescription());
-            txtName.setText(consomation.getName());
-            txtPrice.setText(new DecimalFormat("$##.##").format(consomation.getPrice()));
-            txtQTE.setText(consomation.getQte());
-        }
     }
 
     @Override
@@ -108,6 +88,7 @@ public class AddConsomationActivity extends Activity{
             month=m;
             day=d;
             txtDate.setText(year+"-"+month+"-"+d);
+            fillConsomations();
         }
     };
 }

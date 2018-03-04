@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_height="match_parent"
+    tools:context="com.ayoubtadakker.tadakker.beans.suivi.add_consomation">
 
+    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,21 @@
         android:padding="10dp">
 
         <EditText
-            android:id="@+id/consomation_name"
+            android:id="@+id/txt_cns_date"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_text_addon"
+            android:drawableLeft="@drawable/ic_event_black"
+            android:drawablePadding="15dp"
+            android:drawableTintMode="src_in"
+            android:ems="10"
+            android:inputType="text"
+            android:paddingLeft="4dp" />
+
+        <EditText
+            android:id="@+id/txt_cns_name"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginBottom="10dp"
@@ -29,12 +43,11 @@
             android:drawablePadding="15dp"
             android:drawableTintMode="src_in"
             android:ems="10"
-            android:enabled="false"
             android:inputType="text"
             android:paddingLeft="4dp" />
 
         <EditText
-            android:id="@+id/consomation_description"
+            android:id="@+id/txt_cns_desc"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginBottom="10dp"
@@ -45,7 +58,6 @@
             android:drawableTint="@android:color/black"
             android:drawableTintMode="src_in"
             android:ems="10"
-            android:enabled="false"
             android:inputType="text"
             android:paddingLeft="4dp" />
 
@@ -56,7 +68,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/consomation_prix"
+                android:id="@+id/txt_cns_price"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginBottom="10dp"
@@ -67,12 +79,11 @@
                 android:drawablePadding="15dp"
                 android:drawableTintMode="src_in"
                 android:ems="10"
-                android:enabled="false"
                 android:inputType="text"
                 android:paddingLeft="4dp" />
 
             <EditText
-                android:id="@+id/consomation_qte"
+                android:id="@+id/txt_cns_qte"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginBottom="10dp"
@@ -83,12 +94,19 @@
                 android:drawablePadding="15dp"
                 android:drawableTintMode="src_in"
                 android:ems="10"
-                android:enabled="false"
                 android:inputType="text"
                 android:paddingLeft="4dp" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
             <EditText
-                android:id="@+id/consomation_tot"
+                android:id="@+id/txt_cns_tot"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginBottom="10dp"
@@ -106,43 +124,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@android:color/holo_red_light"
-            android:gravity="center_vertical|center_horizontal"
-            android:orientation="horizontal">
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/consomation_date"
+            <Button
+                android:id="@+id/btn_cns_edit"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:background="@drawable/edit_text_addon"
-                android:drawableLeft="@drawable/ic_event_black"
-                android:drawablePadding="15dp"
-                android:drawableTintMode="src_in"
-                android:ems="10"
-                android:enabled="false"
-                android:inputType="text"
-                android:paddingLeft="4dp" />
-
-            <Button
-                android:id="@+id/consomation_btn_edit"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_margin="4dp"
                 android:layout_weight="0"
-                android:background="@drawable/ic_edit"
-                android:backgroundTint="@android:color/holo_green_dark" />
-
-            <Button
-                android:id="@+id/consomation_btn_delete"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="4dp"
-                android:layout_weight="0"
-                android:background="@drawable/ic_delete_forever"
-                android:backgroundTint="@android:color/holo_red_light" />
+                android:background="@drawable/blue_button"
+                android:text="@string/validate"
+                android:textAllCaps="false"
+                android:textColorLink="@android:color/background_light" />
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>
