@@ -13,7 +13,6 @@
         android:layout_marginBottom="15dp"
         android:layout_marginTop="15dp"
         android:layout_weight="1"
-        android:background="@drawable/categorie_back"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="10dp">
@@ -26,11 +25,12 @@
             android:layout_weight="1"
             android:background="@drawable/edit_text_addon"
             android:drawableLeft="@drawable/ic_event_black"
-            android:drawablePadding="15dp"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/white_color"
             android:drawableTintMode="src_in"
             android:ems="10"
             android:inputType="text"
-            android:paddingLeft="4dp" />
+            android:paddingLeft="6dp" />
 
         <EditText
             android:id="@+id/txt_cns_name"
@@ -40,11 +40,12 @@
             android:layout_weight="1"
             android:background="@drawable/edit_text_addon"
             android:drawableLeft="@drawable/ic_title"
-            android:drawablePadding="15dp"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/white_color"
             android:drawableTintMode="src_in"
             android:ems="10"
             android:inputType="text"
-            android:paddingLeft="4dp" />
+            android:paddingLeft="6dp" />
 
         <EditText
             android:id="@+id/txt_cns_desc"
@@ -54,12 +55,12 @@
             android:layout_weight="1"
             android:background="@drawable/edit_text_addon"
             android:drawableLeft="@drawable/ic_description"
-            android:drawablePadding="15dp"
-            android:drawableTint="@android:color/black"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/white_color"
             android:drawableTintMode="src_in"
             android:ems="10"
             android:inputType="text"
-            android:paddingLeft="4dp" />
+            android:paddingLeft="6dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,26 +77,27 @@
                 android:layout_weight="1"
                 android:background="@drawable/edit_text_addon"
                 android:drawableLeft="@drawable/ic_attach_money"
-                android:drawablePadding="15dp"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/white_color"
                 android:drawableTintMode="src_in"
                 android:ems="10"
                 android:inputType="text"
-                android:paddingLeft="4dp" />
+                android:paddingLeft="6dp" />
 
             <EditText
                 android:id="@+id/txt_cns_qte"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginBottom="10dp"
-                android:layout_marginRight="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/edit_text_addon"
                 android:drawableLeft="@drawable/ic_trending_up"
-                android:drawablePadding="15dp"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/white_color"
                 android:drawableTintMode="src_in"
                 android:ems="10"
                 android:inputType="text"
-                android:paddingLeft="4dp" />
+                android:paddingLeft="6dp" />
 
         </LinearLayout>
 
@@ -113,12 +115,13 @@
                 android:layout_weight="1"
                 android:background="@drawable/edit_text_addon"
                 android:drawableLeft="@drawable/ic_functions"
-                android:drawablePadding="15dp"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/white_color"
                 android:drawableTintMode="src_in"
                 android:ems="10"
                 android:enabled="false"
                 android:inputType="text"
-                android:paddingLeft="4dp" />
+                android:paddingLeft="6dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -131,12 +134,11 @@
                 android:id="@+id/btn_cns_edit"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_margin="4dp"
                 android:layout_weight="0"
                 android:background="@drawable/blue_button"
                 android:text="@string/validate"
                 android:textAllCaps="false"
-                android:textColorLink="@android:color/background_light" />
+                android:textColor="@android:color/background_light" />
         </LinearLayout>
 
     </LinearLayout>

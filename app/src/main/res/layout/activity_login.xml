@@ -50,7 +50,7 @@
                     app:srcCompat="@drawable/app_ic_bottom" />
             </LinearLayout>
 
-            <ScrollView
+            <LinearLayout
                 android:id="@+id/login_form"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -75,6 +75,7 @@
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
                             android:singleLine="true"
+                            android:text="admin"
                             android:textSize="14sp" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -98,6 +99,7 @@
                                 android:inputType="textPassword"
                                 android:maxLines="1"
                                 android:singleLine="true"
+                                android:text="admin"
                                 android:textSize="14sp" />
                         </android.support.design.widget.TextInputLayout>
                         S
@@ -120,7 +122,7 @@
 
                 </LinearLayout>
 
-            </ScrollView>
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

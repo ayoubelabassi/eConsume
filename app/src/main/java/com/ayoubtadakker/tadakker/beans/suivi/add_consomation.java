@@ -53,7 +53,7 @@ public class add_consomation extends DialogFragment {
         btnValide=(Button)view.findViewById(R.id.btn_cns_edit);
 
         if(consomation!=null){
-            txt_date.setText(Globals.DATE_FORMAT.format(consomation.getDate()));
+            txt_date.setText(Globals.DISPLAY_DATE_FORMAT.format(consomation.getDate()));
             txt_desc.setText(consomation.getDescription());
             txt_tot.setText(String.valueOf(consomation.getPrice()*consomation.getQte()));
             txt_name.setText(consomation.getName());

@@ -25,7 +25,6 @@ public class ConsomationAdapter extends BaseAdapter {
 
     private List<Consomation> consomationList=new ArrayList<Consomation>();
     private Context context;
-    private LayoutInflater inflater;
 
     public ConsomationAdapter(Context cntxt,List<Consomation> consomationList) {
         this.consomationList = consomationList;
@@ -61,7 +60,7 @@ public class ConsomationAdapter extends BaseAdapter {
             Button btnDelete=(Button)listView.findViewById(R.id.consomation_btn_delete);
             Button btnEdit=(Button)listView.findViewById(R.id.consomation_btn_edit);
 
-            txt_date.setText(Globals.DATE_FORMAT.format(consomationList.get(position).getDate()));
+            txt_date.setText(Globals.DISPLAY_DATE_FORMAT.format(consomationList.get(position).getDate()));
             txt_desc.setText(consomationList.get(position).getDescription());
             txt_tot.setText(String.valueOf(consomationList.get(position).getPrice()*consomationList.get(position).getQte()));
             txt_name.setText(consomationList.get(position).getName());
@@ -71,7 +70,7 @@ public class ConsomationAdapter extends BaseAdapter {
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    consomationList.remove(position);
                 }
             });
 
