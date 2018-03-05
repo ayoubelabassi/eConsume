@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">tadakker</string>
-
+    <string name="app_name">eConsume</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <!-- String of login -->
     <string name="login.L1">Username</string>
     <string name="login.L2">Password</string>
@@ -11,6 +12,16 @@
     <!-- Main Menu Strings -->
     <string name="main_activity.side_menu.user_photo_desc">User image</string>
     <string name="main_activity.side_menu.user_name">Username</string>
+    <!-- Consomation Strings -->
+    <string name="consomation.title">Consumption</string>
+    <string name="consomation.name">Name</string>
+    <string name="consomation.desc">Description</string>
+    <string name="consomation.date">Date</string>
+    <string name="consomation.price">Price</string>
+    <string name="consomation.qte">QTE</string>
+    <string name="consomation.tot">Total</string>
+    <string name="consomation.delete.msg">Are you sure you want to delete this consumption?</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>

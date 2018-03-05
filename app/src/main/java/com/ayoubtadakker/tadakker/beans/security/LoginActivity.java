@@ -60,7 +60,6 @@ public class LoginActivity extends AppCompatActivity{
             }
         }
     }
-
     public void createUser(){
         User user= null;
         try {
