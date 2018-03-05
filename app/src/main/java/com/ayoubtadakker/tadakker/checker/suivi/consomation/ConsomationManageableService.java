@@ -1,5 +1,7 @@
 package com.ayoubtadakker.tadakker.checker.suivi.consomation;
 
+import com.ayoubtadakker.tadakker.utils.tools.CommonCriterias;
+
 import java.util.List;
 
 /**
@@ -14,4 +16,5 @@ public interface ConsomationManageableService {
     public void update(List<Consomation> entities);
     public Consomation read(int id);
     public List<Consomation> readAll(int user_id);
+    public List<Consomation> readByCritireas(CommonCriterias commonCriterias);
 }

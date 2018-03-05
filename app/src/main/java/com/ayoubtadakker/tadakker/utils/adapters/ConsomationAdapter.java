@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ayoubtadakker.tadakker.R;
+import com.ayoubtadakker.tadakker.beans.suivi.ConsomationsActivity;
 import com.ayoubtadakker.tadakker.beans.suivi.add_consomation;
 import com.ayoubtadakker.tadakker.checker.suivi.consomation.Consomation;
 import com.ayoubtadakker.tadakker.utils.tools.Globals;
@@ -27,7 +30,6 @@ public class ConsomationAdapter extends BaseAdapter {
 
     private List<Consomation> consomationList=new ArrayList<Consomation>();
     private Context context;
-    private LayoutInflater inflater;
 
     public ConsomationAdapter(Context cntxt,List<Consomation> consomationList) {
         this.consomationList = consomationList;
@@ -63,7 +65,7 @@ public class ConsomationAdapter extends BaseAdapter {
             Button btnDelete=(Button)listView.findViewById(R.id.consomation_btn_delete);
             Button btnEdit=(Button)listView.findViewById(R.id.consomation_btn_edit);
 
-            txt_date.setText(Globals.DATE_FORMAT.format(consomationList.get(position).getDate()));
+            txt_date.setText(Globals.DISPLAY_DATE_FORMAT.format(consomationList.get(position).getDate()));
             txt_desc.setText(consomationList.get(position).getDescription());
             txt_tot.setText(String.valueOf(consomationList.get(position).getPrice()*consomationList.get(position).getQte()));
             txt_name.setText(consomationList.get(position).getName());
@@ -79,7 +81,7 @@ public class ConsomationAdapter extends BaseAdapter {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which){
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    consomationList.remove(position);
+                                    ((ConsomationsActivity)context).deleteConsomation(position);
                                     break;
 
                                 case DialogInterface.BUTTON_NEGATIVE:
@@ -93,6 +95,7 @@ public class ConsomationAdapter extends BaseAdapter {
             });
 
             btnEdit.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
                 @Override
                 public void onClick(View view) {
                     add_consomation add_consomation=new add_consomation();

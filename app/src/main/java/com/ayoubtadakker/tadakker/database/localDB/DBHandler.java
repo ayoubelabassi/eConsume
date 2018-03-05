@@ -14,6 +14,9 @@ import com.ayoubtadakker.tadakker.utils.tools.Logger;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.jar.Attributes;
 
 /**
  * Created by AYOUB on 20/01/2018.
@@ -57,12 +60,12 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void deleteUsers(){
         SQLiteDatabase db=this.getWritableDatabase();
-        db.execSQL("delete from USER");
+        db.execSQL("delete USER from USER");
     }
 
-    public ArrayList<User> getUsers()
+    public List<User> getUsers()
     {
-        ArrayList<User> users=new ArrayList<User>();
+        List<User> users=new ArrayList<User>();
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor res=db.rawQuery("select * from USER",null);
         res.moveToFirst();
@@ -84,7 +87,7 @@ public class DBHandler extends SQLiteOpenHelper {
     {
         User user=null;
         SQLiteDatabase db=this.getReadableDatabase();
-        Cursor res=db.rawQuery("select * from USER WHERE USERNAME= ? AND PASSWORD= ?",new String [] {username,password});
+        Cursor res=db.rawQuery("SELECT * FROM USER WHERE USERNAME=? AND PASSWORD=? ",new String [] {username,password});
         res.moveToFirst();
         while(res.isAfterLast()==false)
         {
@@ -103,7 +106,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public Consomation getConsomation(int id){
         Consomation entity=null;
         SQLiteDatabase db=this.getReadableDatabase();
-        Cursor res=db.rawQuery("select * from CONSOMATION WHERE ID=? ",new String [] {String.valueOf(id)});
+        Cursor res=db.rawQuery("SELECT * FROM CONSOMATION WHERE ID=?",new String [] {String.valueOf(id)});
         res.moveToFirst();
         while(res.isAfterLast()==false)
         {
@@ -126,7 +129,7 @@ public class DBHandler extends SQLiteOpenHelper {
         return entity;
     }
 
-    public Long CreateCOnsomation(Consomation entity){
+    public Long CreateConsomation(Consomation entity){
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
         contentValues.put("PRODUCT_NAME",entity.getName());
@@ -137,5 +140,31 @@ public class DBHandler extends SQLiteOpenHelper {
         contentValues.put("USER_FK",entity.getUser_fk());
         Long res=db.insert("CONSOMATION",null,contentValues);
         return res;
+    }
+
+    //read Consomation by spesic criteria
+    public List<Consomation> readByCriterias(String req){
+        List<Consomation> consomations=new ArrayList<Consomation>();
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor res=db.rawQuery(req,null);
+        res.moveToFirst();
+        while(res.isAfterLast()==false)
+        {
+            int ID=res.getInt(res.getColumnIndex("ID"));
+            String NAME=res.getString(res.getColumnIndex("NAME"));
+            String DESCRIPTION=res.getString(res.getColumnIndex("DESCRIPTION"));
+            Double PRICE=res.getDouble(res.getColumnIndex("PRICE"));
+            Date DATE=new Date();
+            try {
+                DATE=Globals.DATE_FORMAT.parse(res.getString(res.getColumnIndex("DATE")));
+            } catch (ParseException e) {
+                Logger.ERROR(e);
+            }
+            int QTE=res.getInt(res.getColumnIndex("QTE"));
+            int USER_FK=res.getInt(res.getColumnIndex("USER_FK"));
+            consomations.add(new Consomation(ID, NAME,DESCRIPTION,QTE,PRICE,DATE,USER_FK));
+            res.moveToNext();
+        }
+        return consomations;
     }
 }
