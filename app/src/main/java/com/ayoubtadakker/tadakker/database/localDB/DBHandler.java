@@ -45,6 +45,9 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("Drop table IF EXISTS CONSOMATION");
     }
 
+    /**
+     * User Methods
+     */
     public Long createUser(User user)
     {
         SQLiteDatabase db=this.getWritableDatabase();
@@ -60,7 +63,13 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void deleteUsers(){
         SQLiteDatabase db=this.getWritableDatabase();
-        db.execSQL("delete USER from USER");
+        db.execSQL("DELETE USER FROM USER");
+    }
+
+    public int deleteUser(int id){
+        SQLiteDatabase db=this.getWritableDatabase();
+        int res=db.delete("USER","id="+id,null);
+        return res;
     }
 
     public List<User> getUsers()
@@ -103,6 +112,70 @@ public class DBHandler extends SQLiteOpenHelper {
         return user;
     }
 
+    /**
+     * Consommation Methods
+     */
+    //Create Consomation
+    public Long createConsomation(Consomation entity){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("PRODUCT_NAME",entity.getName());
+        contentValues.put("PRODUCT_DESCRIPTION",entity.getDescription());
+        contentValues.put("PRICE", String.valueOf(entity.getPrice()));
+        contentValues.put("QTE",entity.getQte());
+        contentValues.put("DATE", Globals.DATE_FORMAT.format(entity.getDate()));
+        contentValues.put("USER_FK",entity.getUser_fk());
+        Long res=db.insert("CONSOMATION",null,contentValues);
+        return res;
+    }
+
+    //Update Consomation
+    public int updateConsommation(Consomation entity){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("PRODUCT_NAME",entity.getName());
+        contentValues.put("PRODUCT_DESCRIPTION",entity.getDescription());
+        contentValues.put("PRICE", String.valueOf(entity.getPrice()));
+        contentValues.put("QTE",entity.getQte());
+        contentValues.put("DATE", Globals.DATE_FORMAT.format(entity.getDate()));
+        contentValues.put("USER_FK",entity.getUser_fk());
+        int res=db.update("CONSOMATION", contentValues,"ID="+entity.getId(),null);
+        return res;
+    }
+
+    //delete Consommation
+    public int deleteConsommation(int id){
+        SQLiteDatabase db=this.getWritableDatabase();
+        int res=db.delete("CONSOMATION","ID="+id,null);
+        return res;
+    }
+
+    public List<Consomation> getConsomations(int user_fk){
+        List<Consomation> entity=null;
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor res=db.rawQuery("SELECT * FROM CONSOMATION WHERE USER_FK=?",new String [] {String.valueOf(user_fk)});
+        res.moveToFirst();
+        while(res.isAfterLast()==false)
+        {
+            int ID=res.getInt(res.getColumnIndex("ID"));
+            String PRODUCT_NAME=res.getString(res.getColumnIndex("PRODUCT_NAME"));
+            String PRODUCT_DESCRIPTION=res.getString(res.getColumnIndex("PRODUCT_DESCRIPTION"));
+            Double PRICE=res.getDouble(res.getColumnIndex("PRICE"));
+            int QTE=res.getInt(res.getColumnIndex("QTE"));
+            String DATE=res.getString(res.getColumnIndex("DATE"));
+            int USER_FK=res.getInt(res.getColumnIndex("USER_FK"));
+            java.util.Date dt=new java.util.Date();
+            try {
+                dt=Globals.DATE_FORMAT.parse(DATE);
+            }catch (ParseException e){
+                Logger.ERROR(e);
+            }
+            entity.add(new Consomation(ID,PRODUCT_NAME,PRODUCT_DESCRIPTION,QTE,PRICE,dt,USER_FK));
+            res.moveToNext();
+        };
+        return entity;
+    }
+
     public Consomation getConsomation(int id){
         Consomation entity=null;
         SQLiteDatabase db=this.getReadableDatabase();
@@ -129,30 +202,42 @@ public class DBHandler extends SQLiteOpenHelper {
         return entity;
     }
 
-    public Long CreateConsomation(Consomation entity){
-        SQLiteDatabase db=this.getWritableDatabase();
-        ContentValues contentValues=new ContentValues();
-        contentValues.put("PRODUCT_NAME",entity.getName());
-        contentValues.put("PRODUCT_DESCRIPTION",entity.getDescription());
-        contentValues.put("PRICE", String.valueOf(entity.getPrice()));
-        contentValues.put("QTE",entity.getQte());
-        contentValues.put("DATE", Globals.DATE_FORMAT.format(entity.getDate()));
-        contentValues.put("USER_FK",entity.getUser_fk());
-        Long res=db.insert("CONSOMATION",null,contentValues);
-        return res;
-    }
-
-    //read Consomation by spesic criteria
-    public List<Consomation> readByCriterias(String req){
+    public List<Consomation> readAllConsommation(){
         List<Consomation> consomations=new ArrayList<Consomation>();
         SQLiteDatabase db=this.getReadableDatabase();
-        Cursor res=db.rawQuery(req,null);
+        Cursor res=db.rawQuery("SELECT * FROM CONSOMATION",null);
         res.moveToFirst();
         while(res.isAfterLast()==false)
         {
             int ID=res.getInt(res.getColumnIndex("ID"));
-            String NAME=res.getString(res.getColumnIndex("NAME"));
-            String DESCRIPTION=res.getString(res.getColumnIndex("DESCRIPTION"));
+            String NAME=res.getString(res.getColumnIndex("PRODUCT_NAME"));
+            String DESCRIPTION=res.getString(res.getColumnIndex("PRODUCT_DESCRIPTION"));
+            Double PRICE=res.getDouble(res.getColumnIndex("PRICE"));
+            Date DATE=new Date();
+            try {
+                DATE=Globals.DATE_FORMAT.parse(res.getString(res.getColumnIndex("DATE")));
+            } catch (ParseException e) {
+                Logger.ERROR(e);
+            }
+            int QTE=res.getInt(res.getColumnIndex("QTE"));
+            int USER_FK=res.getInt(res.getColumnIndex("USER_FK"));
+            consomations.add(new Consomation(ID, NAME,DESCRIPTION,QTE,PRICE,DATE,USER_FK));
+            res.moveToNext();
+        }
+        return consomations;
+    }
+
+    //read Consomation by spesic criteria
+    public List<Consomation> readConsommationByCriterias(String req,String [] params){
+        List<Consomation> consomations=new ArrayList<Consomation>();
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor res=db.rawQuery(req,params);
+        res.moveToFirst();
+        while(res.isAfterLast()==false)
+        {
+            int ID=res.getInt(res.getColumnIndex("ID"));
+            String NAME=res.getString(res.getColumnIndex("PRODUCT_NAME"));
+            String DESCRIPTION=res.getString(res.getColumnIndex("PRODUCT_DESCRIPTION"));
             Double PRICE=res.getDouble(res.getColumnIndex("PRICE"));
             Date DATE=new Date();
             try {

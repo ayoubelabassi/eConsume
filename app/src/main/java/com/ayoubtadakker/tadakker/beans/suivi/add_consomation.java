@@ -19,8 +19,11 @@ import android.widget.TextView;
 
 import com.ayoubtadakker.tadakker.R;
 import com.ayoubtadakker.tadakker.checker.suivi.consomation.Consomation;
+import com.ayoubtadakker.tadakker.checker.suivi.consomation.ConsomationManageableServiceBase;
 import com.ayoubtadakker.tadakker.utils.tools.Globals;
+import com.ayoubtadakker.tadakker.utils.tools.Logger;
 
+import java.text.ParseException;
 import java.util.Calendar;
 
 public class add_consomation extends DialogFragment {
@@ -44,6 +47,7 @@ public class add_consomation extends DialogFragment {
     private String operation;
     private Context context;
     private Calendar cal;
+    private ConsomationManageableServiceBase consommationService;
 
 
 
@@ -59,18 +63,10 @@ public class add_consomation extends DialogFragment {
         txt_price=(EditText)view.findViewById(R.id.txt_cns_price);
         txt_qte=(EditText)view.findViewById(R.id.txt_cns_qte);
         btnValide=(Button)view.findViewById(R.id.btn_cns_edit);
+
+        consommationService=new ConsomationManageableServiceBase(context);
+
         cal=Calendar.getInstance();
-        if(consomation!=null){
-            cal.setTime(consomation.getDate());
-            txt_date.setText(Globals.DISPLAY_DATE_FORMAT.format(consomation.getDate()));
-            txt_desc.setText(consomation.getDescription());
-            txt_tot.setText(String.valueOf(consomation.getPrice()*consomation.getQte()));
-            txt_name.setText(consomation.getName());
-            txt_price.setText(String.valueOf(consomation.getPrice()));
-            txt_qte.setText(String.valueOf(consomation.getQte()));
-        }else{
-            txt_date.setText(Globals.DISPLAY_DATE_FORMAT.format(cal.getTime()));
-        }
 
         txt_price.addTextChangedListener(new TextWatcher() {
             @Override
@@ -112,6 +108,33 @@ public class add_consomation extends DialogFragment {
                 openCalendarDialog();
             }
         });
+
+        btnValide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(validateForm()){
+                    try {
+                        if(consomation==null)
+                            consomation=new Consomation();
+                        String s=txt_date.getText().toString().trim();
+                        consomation.setDate(Globals.DISPLAY_DATE_FORMAT.parse(s));
+                        consomation.setDescription(txt_desc.getText().toString().trim());
+                        consomation.setName(txt_name.getText().toString().trim());
+                        consomation.setQte(Integer.parseInt(txt_qte.getText().toString().trim()));
+                        consomation.setPrice(Double.parseDouble(txt_price.getText().toString().trim()));
+                    } catch (ParseException e) {
+                        Logger.ERROR(e);
+                    }
+                    if(operation.equals(Globals.EDIT_OP)){
+                        consommationService.update(consomation);
+                    }else{
+                        consommationService.create(consomation);
+                        consomation=null;
+                    }
+                    initFragment();
+                }
+            }
+        });
         return view;
     }
 
@@ -135,6 +158,7 @@ public class add_consomation extends DialogFragment {
         DatePickerDialog datePicker = new DatePickerDialog(context,datePickerListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
         datePicker.show();
     }
+
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
 
         // when dialog box is closed, below method will be called.
@@ -145,6 +169,59 @@ public class add_consomation extends DialogFragment {
 
         }
     };
+    //validate form
+    public boolean validateForm(){
+        txt_name.setError(null);
+        txt_price.setError(null);
+        txt_qte.setError(null);
+
+        Boolean valide=true;
+        if(txt_name.getText().length()==0){
+            txt_name.setError(getString(R.string.error_field_required));
+            valide=false;
+        }
+        if(txt_price.getText().length()==0){
+            txt_price.setError(getString(R.string.error_field_required));
+            valide=false;
+        }
+        else{
+            if(Double.parseDouble(txt_price.getText().toString())<=0){
+                txt_price.setError(getString(R.string.consomation_price_error));
+                valide=false;
+            }
+        }
+
+        if(txt_qte.getText().length()==0){
+            txt_qte.setError(getString(R.string.error_field_required));
+            valide=false;
+        }else{
+            if(Integer.parseInt(txt_qte.getText().toString())<=0){
+                txt_qte.setError(getString(R.string.consomation_qte_error));
+                valide=false;
+            }
+        }
+        return valide;
+    }
+
+    public void initFragment(){
+        if(consomation!=null){
+            cal.setTime(consomation.getDate());
+            txt_date.setText(Globals.DISPLAY_DATE_FORMAT.format(consomation.getDate()));
+            txt_desc.setText(consomation.getDescription());
+            txt_tot.setText(String.valueOf(consomation.getPrice()*consomation.getQte()));
+            txt_name.setText(consomation.getName());
+            txt_price.setText(String.valueOf(consomation.getPrice()));
+            txt_qte.setText(String.valueOf(consomation.getQte()));
+        }else{
+            consomation=new Consomation();
+            txt_date.setText(Globals.DISPLAY_DATE_FORMAT.format(cal.getTime()));
+            txt_desc.setText("");
+            txt_tot.setText("0");
+            txt_name.setText("");
+            txt_price.setText("0");
+            txt_qte.setText("0");
+        }
+    }
     /**
      * getters and setters
      * @return

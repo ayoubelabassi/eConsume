@@ -15,6 +15,7 @@ public interface ConsomationManageableService {
     public void update(Consomation entity);
     public void update(List<Consomation> entities);
     public Consomation read(int id);
+    public void delete(int id);
     public List<Consomation> readAll(int user_id);
     public List<Consomation> readByCritireas(CommonCriterias commonCriterias);
 }

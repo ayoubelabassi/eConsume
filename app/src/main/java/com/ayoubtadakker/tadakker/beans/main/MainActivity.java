@@ -1,5 +1,6 @@
 package com.ayoubtadakker.tadakker.beans.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,8 @@ import android.view.MenuItem;
 
 import com.ayoubtadakker.tadakker.R;
 import com.ayoubtadakker.tadakker.beans.suivi.ConsomationsActivity;
+import com.ayoubtadakker.tadakker.beans.suivi.add_consomation;
+import com.ayoubtadakker.tadakker.utils.tools.Globals;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -85,7 +88,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            add_consomation add_consomation=new add_consomation();
+            add_consomation.setConsomation(null);
+            add_consomation.setOperation(Globals.ADD_OP);
+            add_consomation.setContext(this);
+            add_consomation.show(getFragmentManager(),"Add Consomation");
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {

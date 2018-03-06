@@ -21,43 +21,52 @@ public class ConsomationManageableServiceBase implements ConsomationManageableSe
 
     @Override
     public void create(Consomation entity) {
-        //db.crea
+        db.createConsomation(entity);
     }
 
     @Override
     public void create(List<Consomation> entities) {
-
+        //db.createConsomation(entities);
     }
 
     @Override
     public void update(Consomation entity) {
-
+        db.updateConsommation(entity);
     }
 
     @Override
     public void update(List<Consomation> entities) {
-
+        //db.updateConsommation(entities);
     }
 
     @Override
     public Consomation read(int id) {
-        return null;
+        return db.getConsomation(id);
+    }
+
+    @Override
+    public void delete(int id) {
+        db.deleteConsommation(id);
     }
 
     @Override
     public List<Consomation> readAll(int user_id) {
-        return null;
+        return db.getConsomations(user_id);
     }
 
     @Override
     public List<Consomation> readByCritireas(CommonCriterias criterias) {
         String req="SELECT * FROM CONSOMATION WHERE ";
+        String[] params=new String[2];
         if(criterias.getDateDebut()!=null && criterias.getDateFin()!=null){
-            req+="DATE BETWEEN "+ Globals.DATE_FORMAT.format(criterias.getDateDebut())+" AND "+Globals.DATE_FORMAT.format(criterias.getDateFin());
+            req+="DATE BETWEEN ?  AND ?";
+            params[0]=Globals.DATE_FORMAT.format(criterias.getDateDebut());
+            params[1]=Globals.DATE_FORMAT.format(criterias.getDateFin());
         }
         if(criterias.getUser()!=null){
-            req+=" AND USER_FK = "+criterias.getUser().getId();
+            req+=" AND USER_FK = ? ";
+            params[2]=String.valueOf(criterias.getUser().getId());
         }
-        return null;
+        return db.readConsommationByCriterias(req,params);
     }
 }

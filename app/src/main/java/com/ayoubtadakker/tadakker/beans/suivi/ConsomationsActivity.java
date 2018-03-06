@@ -16,7 +16,10 @@ import android.widget.TextView;
 
 import com.ayoubtadakker.tadakker.R;
 import com.ayoubtadakker.tadakker.checker.suivi.consomation.Consomation;
+import com.ayoubtadakker.tadakker.checker.suivi.consomation.ConsomationManageableServiceBase;
+import com.ayoubtadakker.tadakker.database.localDB.DBHandler;
 import com.ayoubtadakker.tadakker.utils.adapters.ConsomationAdapter;
+import com.ayoubtadakker.tadakker.utils.tools.CommonCriterias;
 import com.ayoubtadakker.tadakker.utils.tools.Globals;
 
 import java.util.ArrayList;
@@ -37,7 +40,8 @@ public class ConsomationsActivity extends Activity{
     private Consomation consomation;
     private ConsomationAdapter consomationAdapter;
     List<Consomation> consomations;
-
+    private ConsomationManageableServiceBase consommationService;
+    private CommonCriterias criterias=new CommonCriterias();
     static final int DIALOG_ID=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,8 +50,8 @@ public class ConsomationsActivity extends Activity{
         listView=(ListView)findViewById(R.id.addConsomation_listview);
         txtDate=(TextView)findViewById(R.id.addConsumation_date);
         btnChooseImg=(ImageButton)findViewById(R.id.addConsumation_Choosedate);
-
         cal=Calendar.getInstance();
+        consommationService=new ConsomationManageableServiceBase(this);
     }
 
     @Override
@@ -84,16 +88,20 @@ public class ConsomationsActivity extends Activity{
     };
 
     public void fillConsomations(Date date) {
-        consomations.add(new Consomation(1,"Danone","rah ghir danone",2,2.3,date,1));
-        consomations.add(new Consomation(2,"KHOBZ","",1,1.2,date,1));
-        consomations.add(new Consomation(3,"BATATA","",8,3.5,date,1));
-        consomations.add(new Consomation(4,"BASTA","",5,5,date,1));
-        consomations.add(new Consomation(5,"RICH","",3,10,date,1));
+        criterias.setDateDebut(date);
+        criterias.setDateFin(date);
+        criterias.setUser(Globals.CURRENT_USER);
+        DBHandler db=new DBHandler(this);
+        consomations=consommationService.readByCritireas(criterias);
+        if(consomations==null)
+            consomations=new ArrayList<Consomation>();
         consomationAdapter=new ConsomationAdapter(this,consomations);
         listView.setDivider(null);
         listView.setAdapter(consomationAdapter);
     }
+
     public void deleteConsomation(int position){
+        consommationService.delete(consomations.get(position).getId());
         consomations.remove(position);
         consomationAdapter.notifyDataSetChanged();
     }
