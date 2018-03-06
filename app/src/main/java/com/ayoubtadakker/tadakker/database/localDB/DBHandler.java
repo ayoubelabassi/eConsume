@@ -228,10 +228,10 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     //read Consomation by spesic criteria
-    public List<Consomation> readConsommationByCriterias(String req,String [] params){
+    public List<Consomation> readConsommationByCriterias(String req){
         List<Consomation> consomations=new ArrayList<Consomation>();
         SQLiteDatabase db=this.getReadableDatabase();
-        Cursor res=db.rawQuery(req,params);
+        Cursor res=db.rawQuery(req,null);
         res.moveToFirst();
         while(res.isAfterLast()==false)
         {

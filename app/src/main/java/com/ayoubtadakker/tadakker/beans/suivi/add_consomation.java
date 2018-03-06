@@ -25,6 +25,7 @@ import com.ayoubtadakker.tadakker.utils.tools.Logger;
 
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 public class add_consomation extends DialogFragment {
 
@@ -38,18 +39,12 @@ public class add_consomation extends DialogFragment {
 
     /**
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
      */
     private Consomation consomation;
     private String operation;
     private Context context;
     private Calendar cal;
     private ConsomationManageableServiceBase consommationService;
-
-
 
     @Nullable
     @Override
@@ -67,6 +62,8 @@ public class add_consomation extends DialogFragment {
         consommationService=new ConsomationManageableServiceBase(context);
 
         cal=Calendar.getInstance();
+
+        initFragment();
 
         txt_price.addTextChangedListener(new TextWatcher() {
             @Override
@@ -122,11 +119,14 @@ public class add_consomation extends DialogFragment {
                         consomation.setName(txt_name.getText().toString().trim());
                         consomation.setQte(Integer.parseInt(txt_qte.getText().toString().trim()));
                         consomation.setPrice(Double.parseDouble(txt_price.getText().toString().trim()));
+                        consomation.setUser_fk(Globals.CURRENT_USER.getId());
                     } catch (ParseException e) {
                         Logger.ERROR(e);
                     }
                     if(operation.equals(Globals.EDIT_OP)){
                         consommationService.update(consomation);
+                        ((ConsomationsActivity)context).fillConsomations(new Date());
+                        getFragmentManager().beginTransaction().remove(add_consomation.this).commit();
                     }else{
                         consommationService.create(consomation);
                         consomation=null;

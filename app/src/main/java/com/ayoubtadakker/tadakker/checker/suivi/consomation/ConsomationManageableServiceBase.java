@@ -57,16 +57,13 @@ public class ConsomationManageableServiceBase implements ConsomationManageableSe
     @Override
     public List<Consomation> readByCritireas(CommonCriterias criterias) {
         String req="SELECT * FROM CONSOMATION WHERE ";
-        String[] params=new String[2];
         if(criterias.getDateDebut()!=null && criterias.getDateFin()!=null){
-            req+="DATE BETWEEN ?  AND ?";
-            params[0]=Globals.DATE_FORMAT.format(criterias.getDateDebut());
-            params[1]=Globals.DATE_FORMAT.format(criterias.getDateFin());
+            req+="(DATE BETWEEN '"+Globals.DATE_FORMAT.format(criterias.getDateDebut())+"' AND '"+
+                    Globals.DATE_FORMAT.format(criterias.getDateFin())+"')";
         }
         if(criterias.getUser()!=null){
-            req+=" AND USER_FK = ? ";
-            params[2]=String.valueOf(criterias.getUser().getId());
+            req+=" AND USER_FK = "+String.valueOf(criterias.getUser().getId())+" ";
         }
-        return db.readConsommationByCriterias(req,params);
+        return db.readConsommationByCriterias(req);
     }
 }

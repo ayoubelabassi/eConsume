@@ -58,6 +58,12 @@ public class ConsomationsActivity extends Activity{
     protected void onStart() {
         super.onStart();
         txtDate.setText(Globals.DISPLAY_DATE_FORMAT.format(cal.getTime()));
+        txtDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog(DIALOG_ID);
+            }
+        });
         btnChooseImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +97,7 @@ public class ConsomationsActivity extends Activity{
         criterias.setDateDebut(date);
         criterias.setDateFin(date);
         criterias.setUser(Globals.CURRENT_USER);
-        DBHandler db=new DBHandler(this);
+        //DBHandler db=new DBHandler(this);
         consomations=consommationService.readByCritireas(criterias);
         if(consomations==null)
             consomations=new ArrayList<Consomation>();
