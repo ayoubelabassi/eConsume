@@ -83,7 +83,8 @@
                 android:drawableTint="@color/white_color"
                 android:drawableTintMode="src_in"
                 android:ems="10"
-                android:inputType="text"
+                android:inputType="numberDecimal"
+                android:numeric="decimal"
                 android:paddingLeft="6dp" />
 
             <EditText
@@ -98,7 +99,8 @@
                 android:drawableTint="@color/white_color"
                 android:drawableTintMode="src_in"
                 android:ems="10"
-                android:inputType="text"
+                android:inputType="number"
+                android:numeric="integer"
                 android:paddingLeft="6dp" />
 
         </LinearLayout>
@@ -106,14 +108,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/txt_cns_tot"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/edit_text_addon"
                 android:drawableLeft="@drawable/ic_functions"
@@ -124,6 +126,16 @@
                 android:enabled="false"
                 android:inputType="text"
                 android:paddingLeft="6dp" />
+
+            <TextView
+                android:id="@+id/txt_consommation_unit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:background="@drawable/addon"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="MAD"
+                android:textColor="@color/white_color" />
         </LinearLayout>
 
         <LinearLayout

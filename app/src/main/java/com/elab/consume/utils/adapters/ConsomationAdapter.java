@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.elab.consume.R;
-import com.elab.consume.beans.suivi.ConsomationsActivity;
+import com.elab.consume.beans.main.MainActivity;
 import com.elab.consume.beans.suivi.add_consomation;
 import com.elab.consume.checker.suivi.consomation.Consomation;
 import com.elab.consume.utils.tools.Globals;
@@ -81,7 +81,7 @@ public class ConsomationAdapter extends BaseAdapter {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which){
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    ((ConsomationsActivity)context).deleteConsomation(position);
+                                    ((MainActivity)context).consomationsActivity.deleteConsomation(position);
                                     break;
 
                                 case DialogInterface.BUTTON_NEGATIVE:

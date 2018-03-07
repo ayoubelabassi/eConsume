@@ -1,12 +1,9 @@
 package com.elab.consume.beans.suivi;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.elab.consume.R;
+import com.elab.consume.beans.main.MainActivity;
 import com.elab.consume.checker.suivi.consomation.Consomation;
 import com.elab.consume.checker.suivi.consomation.ConsomationManageableServiceBase;
 import com.elab.consume.utils.tools.Globals;
@@ -48,7 +46,6 @@ public class add_consomation extends DialogFragment {
     private Date update_date;
     private ConsomationManageableServiceBase consommationService;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,7 +67,9 @@ public class add_consomation extends DialogFragment {
         txt_price.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-
+                if(txt_price.getText().equals("0")){
+                    txt_price.setText("");
+                }
             }
 
             @Override
@@ -87,7 +86,9 @@ public class add_consomation extends DialogFragment {
         txt_qte.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                if(txt_qte.getText().equals("0")){
+                    txt_qte.setText("");
+                }
             }
 
             @Override
@@ -127,7 +128,7 @@ public class add_consomation extends DialogFragment {
                     }
                     if(operation.equals(Globals.EDIT_OP)){
                         consommationService.update(consomation);
-                        ((ConsomationsActivity)context).fillConsomations(update_date);
+                        ((MainActivity)context).consomationsActivity.fillConsomations(update_date);
                         getFragmentManager().beginTransaction().remove(add_consomation.this).commit();
                     }else{
                         consommationService.create(consomation);

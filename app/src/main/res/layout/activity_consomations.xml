@@ -17,42 +17,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/categorie_back"
             android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/addConsumation_Choosedate"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:background="@color/colorAccent"
-                android:foreground="@drawable/ic_date_range"
-                android:foregroundTint="@color/white_color" />
 
             <TextView
                 android:id="@+id/addConsumation_date"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_weight="4"
+                android:background="@drawable/text_view_addon"
+                android:drawableLeft="@drawable/ic_event_black"
+                android:drawableTint="@color/white_color"
                 android:gravity="center_vertical|center_horizontal"
+                android:paddingLeft="5dp"
                 android:textSize="18sp" />
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="4dp"
-        android:orientation="horizontal">
-
-        <ListView
-            android:id="@+id/addConsomation_listview"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="horizontal">
+
+            <ListView
+                android:id="@+id/addConsomation_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
     </LinearLayout>
 
 

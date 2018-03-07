@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -30,43 +31,35 @@ import java.util.List;
  * Created by AYOUB on 26/02/2018.
  */
 
-public class ConsomationsActivity extends Activity{
+public class ConsomationsActivity{
+    private Activity _activity;
     private TextView txtDate;
-    private ImageButton btnChooseImg;
     private ListView listView;
-    private Button btnCalendar;
     private Calendar cal;
     private Consomation consomation;
     private ConsomationAdapter consomationAdapter;
     List<Consomation> consomations;
     private ConsomationManageableServiceBase consommationService;
     private CommonCriterias criterias=new CommonCriterias();
-    static final int DIALOG_ID=0;
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_consomations);
-        listView=(ListView)findViewById(R.id.addConsomation_listview);
-        txtDate=(TextView)findViewById(R.id.addConsumation_date);
-        btnChooseImg=(ImageButton)findViewById(R.id.addConsumation_Choosedate);
-        cal=Calendar.getInstance();
-        consommationService=new ConsomationManageableServiceBase(this);
-    }
+    private View view;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    public View onCreate(Activity activity) {
+        _activity=activity;
+        LayoutInflater li = activity.getLayoutInflater();
+        view=li.inflate(R.layout.activity_consomations,null);
+
+        listView=(ListView)view.findViewById(R.id.addConsomation_listview);
+        txtDate=(TextView)view.findViewById(R.id.addConsumation_date);
+        cal=Calendar.getInstance();
+
+        consommationService=new ConsomationManageableServiceBase(_activity);
+
+
         txtDate.setText(Globals.DISPLAY_DATE_FORMAT.format(cal.getTime()));
         txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog(DIALOG_ID);
-            }
-        });
-        btnChooseImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialog(DIALOG_ID);
+                openCalendarDialog();
             }
         });
 
@@ -74,13 +67,12 @@ public class ConsomationsActivity extends Activity{
         consomations= new ArrayList<Consomation>();
         Date date=new Date();
         fillConsomations(date);
+        return view;
     }
 
-    @Override
-    protected Dialog onCreateDialog(int id){
-        if(id==DIALOG_ID)
-            return new DatePickerDialog(this,dpickerListnner,cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
-        return null;
+    public void openCalendarDialog(){
+        DatePickerDialog datePicker = new DatePickerDialog(_activity,dpickerListnner, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+        datePicker.show();
     }
 
     private DatePickerDialog.OnDateSetListener dpickerListnner=new DatePickerDialog.OnDateSetListener(){
@@ -96,11 +88,10 @@ public class ConsomationsActivity extends Activity{
         criterias.setDateDebut(date);
         criterias.setDateFin(date);
         criterias.setUser(Globals.CURRENT_USER);
-        //DBHandler db=new DBHandler(this);
         consomations=consommationService.readByCritireas(criterias);
         if(consomations==null)
             consomations=new ArrayList<Consomation>();
-        consomationAdapter=new ConsomationAdapter(this,consomations);
+        consomationAdapter=new ConsomationAdapter(_activity,consomations);
         listView.setDivider(null);
         listView.setAdapter(consomationAdapter);
     }
