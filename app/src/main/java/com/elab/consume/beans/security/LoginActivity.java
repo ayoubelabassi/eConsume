@@ -11,11 +11,11 @@ import android.widget.TextView;
 
 import com.elab.consume.R;
 import com.elab.consume.beans.main.MainActivity;
-import com.elab.consume.checker.Cryptor;
+import com.elab.consume.tools.Cryptor;
 import com.elab.consume.checker.compagne.User;
-import com.elab.consume.database.localDB.DBHandler;
-import com.elab.consume.utils.tools.Globals;
-import com.elab.consume.utils.tools.Logger;
+import com.elab.consume.data.local.DBHandler;
+import com.elab.consume.tools.Globals;
+import com.elab.consume.tools.Logger;
 
 import java.util.List;
 

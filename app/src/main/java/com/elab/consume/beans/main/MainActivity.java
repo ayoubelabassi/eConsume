@@ -14,23 +14,29 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.elab.consume.R;
-import com.elab.consume.beans.suivi.ConsomationsActivity;
-import com.elab.consume.beans.suivi.add_consomation;
-import com.elab.consume.utils.tools.Globals;
+import com.elab.consume.beans.expence.DailyExpences;
+import com.elab.consume.beans.expence.ExpenceEditor;
+import com.elab.consume.beans.expence.MonthlyExpences;
+import com.elab.consume.tools.Globals;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    FloatingActionButton fab;
-    DrawerLayout drawer;
-    ActionBarDrawerToggle toggle;
-    NavigationView navigationView;
-    FrameLayout mainFrame;
-    public ConsomationsActivity consomationsActivity;
+    private FloatingActionButton fab;
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+    private FrameLayout mainFrame;
+    public DailyExpences dailyExpences;
+    private MonthlyExpences monthlyExpences;
+
+    private float x1,x2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,18 +54,19 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        //fab.set
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                add_consomation add_consomation=new add_consomation();
-                add_consomation.setConsomation(null);
+                ExpenceEditor add_consomation=new ExpenceEditor();
+                add_consomation.setExpence(null);
                 add_consomation.setOperation(Globals.ADD_OP);
                 add_consomation.setContext(MainActivity.this);
-                add_consomation.show(getFragmentManager(),"Add Consomation");
+                add_consomation.show(getFragmentManager(),"Add Expence");
             }
         });
         navigationView.setNavigationItemSelectedListener(this);
-        dayConsommation();
+        LoadDailyExpences();
     }
 
     @Override
@@ -99,11 +106,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-            dayConsommation();
+            LoadDailyExpences();
         if (id == R.id.nav_camera) {
 
         } else if (id == R.id.nav_gallery) {
-
+            loadMonthlyExpences();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -113,14 +120,21 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void dayConsommation(){
-        consomationsActivity = new ConsomationsActivity();
-        mainFrame.addView(consomationsActivity.onCreate(this));
+    public void LoadDailyExpences(){
+        monthlyExpences=null;
+        mainFrame.removeAllViews();
+        dailyExpences = new DailyExpences();
+        mainFrame.addView(dailyExpences.onCreate(this));
+    }
+    public void loadMonthlyExpences(){
+        dailyExpences=null;
+        mainFrame.removeAllViews();
+        monthlyExpences = new MonthlyExpences();
+        mainFrame.addView(monthlyExpences.onCreate(this));
     }
 }

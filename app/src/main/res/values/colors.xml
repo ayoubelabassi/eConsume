@@ -7,4 +7,9 @@
     <color name="colorClicked">#2689a7</color>
     <color name="white_color">#ffffff</color>
     <color name="border_inputs">#BBBBBB</color>
+
+    <!-- Chart Colors -->
+    <color name="colorDanger">#ea5d5d</color>
+    <color name="colorAverage">#f9e800</color>
+    <color name="colorSuccess">#69d157</color>
 </resources>
