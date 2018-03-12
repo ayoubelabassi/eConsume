@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -45,7 +46,7 @@ public class MonthlyExpences {
     private View view;
 
     //Layouts
-    private RelativeLayout mainLayout;
+    private LinearLayout mainLayout;
     private RelativeLayout lineLayout;
 
     //Data
@@ -65,7 +66,7 @@ public class MonthlyExpences {
 
         //initialize views
         txtDate=(TextView)view.findViewById(R.id.me_txt_date);
-        mainLayout=(RelativeLayout)view.findViewById(R.id.me_main_layout);
+        mainLayout=(LinearLayout)view.findViewById(R.id.me_main_layout);
         lineLayout=(RelativeLayout)view.findViewById(R.id.me_linechart_layout);
         barChart=(BarChart)view.findViewById(R.id.me_bar_chart);
 
@@ -120,33 +121,33 @@ public class MonthlyExpences {
 
     public void fillLineCharte(){
         // fill the lists
-        List<BarEntry> Dentries = new ArrayList<>();
-        List<BarEntry> Aentries = new ArrayList<>();
-        List<BarEntry> Gentries = new ArrayList<>();
+        List<BarEntry> Dentries = new ArrayList<BarEntry>();
+        List<BarEntry> Aentries = new ArrayList<BarEntry>();
+        List<BarEntry> Gentries = new ArrayList<BarEntry>();
+        List<String> labels=new ArrayList<String>();
+
         Calendar calendar=Calendar.getInstance();
-        Calendar current=Calendar.getInstance();
+        Calendar current=cal;
         for (int i=1;i<=cal.getActualMaximum(Calendar.DAY_OF_MONTH);i++){
             Boolean exist=false;
             current.set(Calendar.DAY_OF_MONTH,i);
+            labels.add(Globals.DAY_DATE_FORMAT.format(current.getTime()));
             for (MonthExpence data : monthExpences) {
                 calendar.setTime(data.getDate());
-                if(calendar.get(Calendar.DAY_OF_MONTH)==current.get(Calendar.DAY_OF_MONTH)){
+                if(calendar.get(Calendar.DAY_OF_MONTH)==i){
                     if(data.getMontant()<=(Globals.MAX_AMOUNT/2)) {
-                        Gentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant()));
+                        Gentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant(),"Hello"));
                     }
                     else if(data.getMontant()<=Globals.MAX_AMOUNT)
-                        Aentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant()));
+                        Aentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant(),"Hello"));
                     else
-                        Dentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant()));
+                        Dentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant(),"Hello"));
                     exist=true;
-                }else
-                    exist=false;
+                }
             }
             if (!exist)
                 Gentries.add(new BarEntry(current.get(Calendar.DAY_OF_MONTH), 0));
         }
-
-
         BarDataSet Dset=new BarDataSet(Dentries, _activity.getString(R.string.dangerStatus));
         Dset.setColor(Color.parseColor("#ea5d5d"));
         BarDataSet Aset=new BarDataSet(Aentries, _activity.getString(R.string.averageStatus));
@@ -158,7 +159,9 @@ public class MonthlyExpences {
         set.add(Aset);
         set.add(Gset);
         barChart.setData(new BarData(set));
-        barChart.setFitBars(true);
+        barChart.setDragEnabled(true);
+        barChart.setScaleEnabled(true);
+        barChart.setTouchEnabled(true);
         barChart.invalidate();
     }
 

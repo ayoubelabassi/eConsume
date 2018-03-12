@@ -53,8 +53,8 @@
 
 
     <!-- Chart Status -->
-    <string name="dangerStatus">Danger</string>
-    <string name="averageStatus">Attention</string>
-    <string name="goodStatus">Good</string>
+    <string name="dangerStatus">Above budget</string>
+    <string name="averageStatus">On budget</string>
+    <string name="goodStatus">Below budget</string>
 
 </resources>
