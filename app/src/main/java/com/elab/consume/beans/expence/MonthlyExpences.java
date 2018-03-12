@@ -19,8 +19,13 @@ import com.elab.consume.checker.expence.ExpenceManageableServiceBase;
 import com.elab.consume.checker.expence.MonthExpence;
 import com.elab.consume.tools.CommonCriterias;
 import com.elab.consume.tools.Globals;
+import com.elab.consume.tools.Operator;
+import com.elab.consume.tools.charts.MyValueFormatter;
+import com.elab.consume.tools.charts.MyYAxisValueFormatter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -47,7 +52,7 @@ public class MonthlyExpences {
 
     //Layouts
     private LinearLayout mainLayout;
-    private RelativeLayout lineLayout;
+    private LinearLayout lineLayout;
 
     //Data
     private Activity _activity;
@@ -67,7 +72,7 @@ public class MonthlyExpences {
         //initialize views
         txtDate=(TextView)view.findViewById(R.id.me_txt_date);
         mainLayout=(LinearLayout)view.findViewById(R.id.me_main_layout);
-        lineLayout=(RelativeLayout)view.findViewById(R.id.me_linechart_layout);
+        lineLayout=(LinearLayout)view.findViewById(R.id.me_linechart_layout);
         barChart=(BarChart)view.findViewById(R.id.me_bar_chart);
 
         //Initialize datas
@@ -124,44 +129,81 @@ public class MonthlyExpences {
         List<BarEntry> Dentries = new ArrayList<BarEntry>();
         List<BarEntry> Aentries = new ArrayList<BarEntry>();
         List<BarEntry> Gentries = new ArrayList<BarEntry>();
-        List<String> labels=new ArrayList<String>();
+        List<String> Dlab=new ArrayList<String>();
+        List<String> Alab=new ArrayList<String>();
+        List<String> Glab=new ArrayList<String>();
 
         Calendar calendar=Calendar.getInstance();
         Calendar current=cal;
         for (int i=1;i<=cal.getActualMaximum(Calendar.DAY_OF_MONTH);i++){
             Boolean exist=false;
             current.set(Calendar.DAY_OF_MONTH,i);
-            labels.add(Globals.DAY_DATE_FORMAT.format(current.getTime()));
             for (MonthExpence data : monthExpences) {
                 calendar.setTime(data.getDate());
                 if(calendar.get(Calendar.DAY_OF_MONTH)==i){
                     if(data.getMontant()<=(Globals.MAX_AMOUNT/2)) {
-                        Gentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant(),"Hello"));
+                        Gentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant()));
+                        Dlab.add(Globals.DAY_DATE_FORMAT.format(current.getTime()));
                     }
-                    else if(data.getMontant()<=Globals.MAX_AMOUNT)
-                        Aentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant(),"Hello"));
-                    else
-                        Dentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant(),"Hello"));
+                    else if(data.getMontant()<=Globals.MAX_AMOUNT){
+                        Aentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant()));
+                        Alab.add(Globals.DAY_DATE_FORMAT.format(current.getTime()));
+                    }
+                    else{
+                        Dentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant()));
+                        Glab.add(Globals.DAY_DATE_FORMAT.format(current.getTime()));
+                    }
                     exist=true;
                 }
             }
-            if (!exist)
+            if (!exist){
                 Gentries.add(new BarEntry(current.get(Calendar.DAY_OF_MONTH), 0));
+                Glab.add(Globals.DAY_DATE_FORMAT.format(current.getTime()));
+            }
         }
+        //set Data
         BarDataSet Dset=new BarDataSet(Dentries, _activity.getString(R.string.dangerStatus));
         Dset.setColor(Color.parseColor("#ea5d5d"));
         BarDataSet Aset=new BarDataSet(Aentries, _activity.getString(R.string.averageStatus));
         Aset.setColor(Color.parseColor("#f9e800"));
         BarDataSet Gset=new BarDataSet(Gentries, _activity.getString(R.string.goodStatus));
         Gset.setColor(Color.parseColor("#69d157"));
+
+        //set labels
+        Gset.setStackLabels(Operator.stringsConvertor(Glab));
+        Dset.setStackLabels(Operator.stringsConvertor(Dlab));
+        Aset.setStackLabels(Operator.stringsConvertor(Alab));
+
         List<IBarDataSet> set = new ArrayList<IBarDataSet>();
         set.add(Dset);
         set.add(Aset);
         set.add(Gset);
-        barChart.setData(new BarData(set));
+
+        //Build XAxis
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawGridLines(false);
+        xAxis.setLabelRotationAngle(-90);
+        xAxis.setCenterAxisLabels(true);
+        // set a custom value formatter
+        xAxis.setValueFormatter(new MyYAxisValueFormatter(cal));
+
+        YAxis yleftAxis = barChart.getAxisLeft();
+        yleftAxis.setAxisMinimum(0);
+        YAxis yRAxis = barChart.getAxisRight();
+        yRAxis.setAxisMinimum(0);
+
+        //Configure Bare DATA
+        BarData barData=new BarData(set);
+        barData.setBarWidth(1.2f);
+
+        //set chart
+        barChart.setData(barData);
         barChart.setDragEnabled(true);
         barChart.setScaleEnabled(true);
         barChart.setTouchEnabled(true);
+        barChart.getDescription().setEnabled(false);
         barChart.invalidate();
     }
 

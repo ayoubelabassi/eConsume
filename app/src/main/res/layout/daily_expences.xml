@@ -28,10 +28,10 @@
                 android:layout_height="35dp"
                 android:layout_weight="4"
                 android:background="@drawable/text_view_addon"
-                android:drawableLeft="@drawable/ic_event_black"
+                android:drawableLeft="@drawable/ic_day"
                 android:drawableTint="@color/white_color"
                 android:gravity="center_vertical|center_horizontal"
-                android:paddingLeft="5dp"
+                android:paddingLeft="1dp"
                 android:textSize="18sp" />
 
         </LinearLayout>
