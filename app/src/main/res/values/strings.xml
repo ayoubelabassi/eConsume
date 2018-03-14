@@ -56,5 +56,9 @@
     <string name="dangerStatus">Above budget</string>
     <string name="averageStatus">On budget</string>
     <string name="goodStatus">Below budget</string>
+    <!-- -->
+    <string name="card.label.expense">EXPENSES</string>
+    <string name="card.label.income">INCOMES</string>
+    <string name="card.label.balance">BALANCE</string>
 
 </resources>

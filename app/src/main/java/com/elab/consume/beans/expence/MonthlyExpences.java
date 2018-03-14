@@ -3,13 +3,11 @@ package com.elab.consume.beans.expence;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.elab.consume.R;
@@ -19,19 +17,13 @@ import com.elab.consume.checker.expence.ExpenceManageableServiceBase;
 import com.elab.consume.checker.expence.MonthExpence;
 import com.elab.consume.tools.CommonCriterias;
 import com.elab.consume.tools.Globals;
-import com.elab.consume.tools.Operator;
-import com.elab.consume.tools.charts.MyValueFormatter;
 import com.elab.consume.tools.charts.MyYAxisValueFormatter;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 import java.util.ArrayList;
@@ -121,10 +113,10 @@ public class MonthlyExpences {
         criterias.setDateFin(cal.getTime());
         criterias.setUser(Globals.CURRENT_USER);
         monthExpences = expenceService.readMonthExpences(criterias);
-        fillLineCharte();
+        fillLineChart();
     }
 
-    public void fillLineCharte(){
+    public void fillLineChart(){
         // fill the lists
         List<BarEntry> Dentries = new ArrayList<BarEntry>();
         List<BarEntry> Aentries = new ArrayList<BarEntry>();
@@ -173,17 +165,21 @@ public class MonthlyExpences {
         xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(false);
         xAxis.setCenterAxisLabels(true);
+        xAxis.setDrawLabels(true);
+        xAxis.setAxisMaximum(31);
+        xAxis.setAxisMinimum(10);
+        //xAxis.setLabelCount(cal.getActualMaximum(Calendar.DAY_OF_MONTH));
         // set a custom value formatter
-        xAxis.setValueFormatter(new MyYAxisValueFormatter(cal));
+        //xAxis.setValueFormatter(new MyYAxisValueFormatter(cal));
 
-        YAxis yleftAxis = barChart.getAxisLeft();
-        yleftAxis.setAxisMinimum(0);
+        YAxis yLAxis = barChart.getAxisLeft();
         YAxis yRAxis = barChart.getAxisRight();
-        yRAxis.setAxisMinimum(0);
+        yRAxis.setEnabled(false);
+        yLAxis.setEnabled(false);
 
         //Configure Bare DATA
         BarData barData=new BarData(set);
-        barData.setBarWidth(0.8f);
+        barData.setBarWidth(0.5f);
 
         //set chart
         barChart.setData(barData);
@@ -191,6 +187,7 @@ public class MonthlyExpences {
         barChart.setDragEnabled(true);
         barChart.setScaleEnabled(true);
         barChart.setTouchEnabled(true);
+        barChart.setFitBars(true);
         barChart.getDescription().setEnabled(false);
         barChart.invalidate();
     }
@@ -199,6 +196,7 @@ public class MonthlyExpences {
         cal.add(Calendar.MONTH,number);
         loadExpences(cal.getTime());
     }
+
 
     private View.OnTouchListener swipeDate = new View.OnTouchListener() {
         @Override

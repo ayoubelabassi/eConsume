@@ -77,43 +77,9 @@ public class ExpenceEditor extends DialogFragment {
 
         initFragment();
 
-        txt_price.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-                if(txt_price.getText().equals("0")){
-                    txt_price.setText("");
-                }
-            }
+        txt_price.addTextChangedListener(totaleCalculator);
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                txt_tot.setText(String.valueOf(calculateTotal(txt_price.getText().toString().trim(),txt_qte.getText().toString().trim())));
-            }
-        });
-
-        txt_qte.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(txt_qte.getText().equals("0")){
-                    txt_qte.setText("");
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                txt_tot.setText(String.valueOf(calculateTotal(txt_price.getText().toString().trim(),txt_qte.getText().toString().trim())));
-            }
-        });
+        txt_qte.addTextChangedListener(totaleCalculator);
 
         txt_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,49 +88,9 @@ public class ExpenceEditor extends DialogFragment {
             }
         });
 
-        btnValide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(validateForm()){
-                    try {
-                        if(expence ==null)
-                            expence =new Expence();
-                        String s=txt_date.getText().toString().trim();
-                        expence.setDate(Globals.DISPLAY_DATE_FORMAT.parse(s));
-                        expence.setDescription(txt_desc.getText().toString().trim());
-                        expence.setName(txt_name.getText().toString().trim());
-                        expence.setQte(Integer.parseInt(txt_qte.getText().toString().trim()));
-                        expence.setPrice(Double.parseDouble(txt_price.getText().toString().trim()));
-                        expence.setUser_fk(Globals.CURRENT_USER.getId());
-                    } catch (ParseException e) {
-                        Logger.ERROR(e);
-                    }
-                    if(operation.equals(Globals.EDIT_OP)){
-                        expenceService.update(expence);
-                        ((MainActivity)context).dailyExpences.fillConsomations(update_date);
-                        getFragmentManager().beginTransaction().remove(ExpenceEditor.this).commit();
-                    }else{
-                        expenceService.create(expence);
-                        expence =null;
-                    }
-                    initFragment();
-                }
-            }
-        });
-        img_txt_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(isDown){
-                    img_txt_name.setImageResource(R.drawable.ic_arrow_drop_down);
-                    txt_name.dismissDropDown();
-                    isDown=false;
-                }else {
-                    img_txt_name.setImageResource(R.drawable.ic_arrow_drop_up);
-                    txt_name.showDropDown();
-                    isDown=true;
-                }
-            }
-        });
+        btnValide.setOnClickListener(validerClick);
+
+        img_txt_name.setOnClickListener(autoCompleteViewer);
         return view;
     }
 
@@ -188,16 +114,7 @@ public class ExpenceEditor extends DialogFragment {
         datePicker.show();
     }
 
-    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
 
-        // when dialog box is closed, below method will be called.
-        public void onDateSet(DatePicker view, int year,
-                              int month, int day) {
-            cal.set(year,month,day);
-            txt_date.setText(Globals.DISPLAY_DATE_FORMAT.format(cal.getTime()));
-
-        }
-    };
     //validate form
     public boolean validateForm(){
         txt_name.setError(null);
@@ -260,6 +177,86 @@ public class ExpenceEditor extends DialogFragment {
                 android.R.layout.simple_dropdown_item_1line, productsNames);
         txt_name.setAdapter(adapter);
     }
+    /**
+     * Events
+     */
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int year,
+                              int month, int day) {
+            cal.set(year,month,day);
+            txt_date.setText(Globals.DISPLAY_DATE_FORMAT.format(cal.getTime()));
+
+        }
+    };
+
+    private View.OnClickListener validerClick=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(validateForm()){
+                try {
+                    if(expence ==null)
+                        expence =new Expence();
+                    String s=txt_date.getText().toString().trim();
+                    expence.setDate(Globals.DISPLAY_DATE_FORMAT.parse(s));
+                    expence.setDescription(txt_desc.getText().toString().trim());
+                    expence.setName(txt_name.getText().toString().trim());
+                    expence.setQte(Integer.parseInt(txt_qte.getText().toString().trim()));
+                    expence.setPrice(Double.parseDouble(txt_price.getText().toString().trim()));
+                    expence.setUser_fk(Globals.CURRENT_USER.getId());
+                } catch (ParseException e) {
+                    Logger.ERROR(e);
+                }
+                if(operation.equals(Globals.EDIT_OP)){
+                    expenceService.update(expence);
+                    ((MainActivity)context).dailyExpences.fillConsomations(update_date);
+                    getFragmentManager().beginTransaction().remove(ExpenceEditor.this).commit();
+                }else{
+                    expenceService.create(expence);
+                    expence =null;
+                }
+                initFragment();
+            }
+        }
+    };
+
+    private TextWatcher totaleCalculator=new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if(txt_qte.getText().equals("0")){
+                txt_qte.setText("");
+            }
+            if(txt_price.getText().equals("0")){
+                txt_price.setText("");
+            }
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            txt_tot.setText(String.valueOf(calculateTotal(txt_price.getText().toString().trim(),txt_qte.getText().toString().trim())));
+        }
+    };
+
+    private View.OnClickListener autoCompleteViewer=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(isDown){
+                img_txt_name.setImageResource(R.drawable.ic_arrow_drop_down);
+                txt_name.dismissDropDown();
+                isDown=false;
+            }else {
+                img_txt_name.setImageResource(R.drawable.ic_arrow_drop_up);
+                txt_name.showDropDown();
+                isDown=true;
+            }
+        }
+    };
     /**
      * getters and setters
      * @return
