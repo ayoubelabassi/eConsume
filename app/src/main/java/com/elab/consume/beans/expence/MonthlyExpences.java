@@ -3,6 +3,7 @@ package com.elab.consume.beans.expence;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,17 +20,21 @@ import com.elab.consume.tools.CommonCriterias;
 import com.elab.consume.tools.Globals;
 import com.elab.consume.tools.charts.MyYAxisValueFormatter;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static android.view.View.Y;
 
 /**
  * Created by AYOUB on 11/03/2018.
@@ -158,37 +163,57 @@ public class MonthlyExpences {
         set.add(Dset);
         set.add(Aset);
         set.add(Gset);
-
+        int d= (int) Dset.getXMax();
+        int a=(int)Aset.getXMax();
+        int g=(int)Gset.getXMax();
         //Build XAxis
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(false);
-        xAxis.setCenterAxisLabels(true);
+        // xAxis.setCenterAxisLabels(true);
         xAxis.setDrawLabels(true);
         xAxis.setAxisMaximum(31);
-        xAxis.setAxisMinimum(10);
+        xAxis.setAxisMinimum(1);
+
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                String result="";
+                if((value/(int)value)==1){
+                    result+=String.valueOf((int) Math.floor(value));
+                }else{
+                    result="";
+                }
+                return result;
+            }
+        });
+
+        //xAxis.setLabelCount(d+a+g);
         //xAxis.setLabelCount(cal.getActualMaximum(Calendar.DAY_OF_MONTH));
         // set a custom value formatter
         //xAxis.setValueFormatter(new MyYAxisValueFormatter(cal));
 
         YAxis yLAxis = barChart.getAxisLeft();
         YAxis yRAxis = barChart.getAxisRight();
+        yLAxis.setAxisMinimum(0);
+        yRAxis.setAxisMinimum(0);
         yRAxis.setEnabled(false);
         yLAxis.setEnabled(false);
 
         //Configure Bare DATA
         BarData barData=new BarData(set);
-        barData.setBarWidth(0.5f);
+        barData.setBarWidth(0.6f);
 
         //set chart
         barChart.setData(barData);
-        barChart.zoomToCenter(Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0);
         barChart.setDragEnabled(true);
         barChart.setScaleEnabled(true);
         barChart.setTouchEnabled(true);
         barChart.setFitBars(true);
         barChart.getDescription().setEnabled(false);
+        barChart.setVisibleXRangeMinimum(1);
+        barChart.setVisibleXRangeMaximum(15);
         barChart.invalidate();
     }
 

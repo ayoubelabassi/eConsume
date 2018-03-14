@@ -78,7 +78,8 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="4dp"
                         android:text="@string/card.label.expense"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/textView5"
@@ -125,7 +126,8 @@
                         android:gravity="left"
                         android:paddingLeft="4dp"
                         android:text="@string/card.label.income"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/textView3"
@@ -173,7 +175,8 @@
                         android:gravity="left"
                         android:paddingLeft="4dp"
                         android:text="@string/card.label.balance"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/textView3"

@@ -21,6 +21,11 @@ public class MyYAxisValueFormatter implements IAxisValueFormatter {
         // format values to 1 decimal digit
         mFormat = new DecimalFormat("##0.0");
     }
+
+    public MyYAxisValueFormatter() {
+
+    }
+
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
         cal.set(Calendar.DAY_OF_MONTH,(int) value);
