@@ -88,7 +88,7 @@ public class MonthlyExpences {
             }
         });
 
-        mainLayout.setOnTouchListener(swipeDate);
+        //mainLayout.setOnTouchListener(swipeDate);
         //fill data
         loadExpences(cal.getTime());
         return view;
@@ -129,9 +129,6 @@ public class MonthlyExpences {
         List<BarEntry> Dentries = new ArrayList<BarEntry>();
         List<BarEntry> Aentries = new ArrayList<BarEntry>();
         List<BarEntry> Gentries = new ArrayList<BarEntry>();
-        List<String> Dlab=new ArrayList<String>();
-        List<String> Alab=new ArrayList<String>();
-        List<String> Glab=new ArrayList<String>();
 
         Calendar calendar=Calendar.getInstance();
         Calendar current=cal;
@@ -143,22 +140,18 @@ public class MonthlyExpences {
                 if(calendar.get(Calendar.DAY_OF_MONTH)==i){
                     if(data.getMontant()<=(Globals.MAX_AMOUNT/2)) {
                         Gentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant()));
-                        Dlab.add(Globals.DAY_DATE_FORMAT.format(current.getTime()));
                     }
                     else if(data.getMontant()<=Globals.MAX_AMOUNT){
                         Aentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant()));
-                        Alab.add(Globals.DAY_DATE_FORMAT.format(current.getTime()));
                     }
                     else{
                         Dentries.add(new BarEntry(calendar.get(Calendar.DAY_OF_MONTH), data.getMontant()));
-                        Glab.add(Globals.DAY_DATE_FORMAT.format(current.getTime()));
                     }
                     exist=true;
                 }
             }
             if (!exist){
                 Gentries.add(new BarEntry(current.get(Calendar.DAY_OF_MONTH), 0));
-                Glab.add(Globals.DAY_DATE_FORMAT.format(current.getTime()));
             }
         }
         //set Data
@@ -168,11 +161,6 @@ public class MonthlyExpences {
         Aset.setColor(Color.parseColor("#f9e800"));
         BarDataSet Gset=new BarDataSet(Gentries, _activity.getString(R.string.goodStatus));
         Gset.setColor(Color.parseColor("#69d157"));
-
-        //set labels
-        Gset.setStackLabels(Operator.stringsConvertor(Glab));
-        Dset.setStackLabels(Operator.stringsConvertor(Dlab));
-        Aset.setStackLabels(Operator.stringsConvertor(Alab));
 
         List<IBarDataSet> set = new ArrayList<IBarDataSet>();
         set.add(Dset);
@@ -184,7 +172,6 @@ public class MonthlyExpences {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(false);
-        xAxis.setLabelRotationAngle(-90);
         xAxis.setCenterAxisLabels(true);
         // set a custom value formatter
         xAxis.setValueFormatter(new MyYAxisValueFormatter(cal));
@@ -196,10 +183,11 @@ public class MonthlyExpences {
 
         //Configure Bare DATA
         BarData barData=new BarData(set);
-        barData.setBarWidth(1.2f);
+        barData.setBarWidth(0.8f);
 
         //set chart
         barChart.setData(barData);
+        barChart.zoomToCenter(Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0);
         barChart.setDragEnabled(true);
         barChart.setScaleEnabled(true);
         barChart.setTouchEnabled(true);
