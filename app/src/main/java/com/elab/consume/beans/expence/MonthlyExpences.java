@@ -3,7 +3,6 @@ package com.elab.consume.beans.expence;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.elab.consume.checker.expence.ExpenceManageableServiceBase;
 import com.elab.consume.checker.expence.MonthExpence;
 import com.elab.consume.tools.CommonCriterias;
 import com.elab.consume.tools.Globals;
-import com.elab.consume.tools.charts.MyYAxisValueFormatter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -49,7 +47,7 @@ public class MonthlyExpences {
 
     //Layouts
     private LinearLayout mainLayout;
-    private LinearLayout lineLayout;
+    private LinearLayout barLayout;
 
     //Data
     private Activity _activity;
@@ -69,7 +67,7 @@ public class MonthlyExpences {
         //initialize views
         txtDate=(TextView)view.findViewById(R.id.me_txt_date);
         mainLayout=(LinearLayout)view.findViewById(R.id.me_main_layout);
-        lineLayout=(LinearLayout)view.findViewById(R.id.me_linechart_layout);
+        barLayout=(LinearLayout)view.findViewById(R.id.me_barchart_layout);
         barChart=(BarChart)view.findViewById(R.id.me_bar_chart);
 
         //Initialize datas
@@ -151,7 +149,7 @@ public class MonthlyExpences {
                 Gentries.add(new BarEntry(current.get(Calendar.DAY_OF_MONTH), 0));
             }
         }
-        //set Data
+        //set Data Bar
         BarDataSet Dset=new BarDataSet(Dentries, _activity.getString(R.string.dangerStatus));
         Dset.setColor(Color.parseColor("#ea5d5d"));
         BarDataSet Aset=new BarDataSet(Aentries, _activity.getString(R.string.averageStatus));
@@ -209,7 +207,7 @@ public class MonthlyExpences {
         barChart.setData(barData);
         barChart.setDragEnabled(true);
         barChart.setScaleEnabled(true);
-        barChart.setTouchEnabled(true);
+        //barChart.setTouchEnabled(true);
         barChart.setFitBars(true);
         barChart.getDescription().setEnabled(false);
         barChart.setVisibleXRangeMinimum(1);

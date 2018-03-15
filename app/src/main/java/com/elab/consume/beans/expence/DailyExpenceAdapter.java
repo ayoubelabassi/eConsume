@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.elab.consume.R;
 import com.elab.consume.beans.main.MainActivity;
@@ -53,19 +54,19 @@ public class DailyExpenceAdapter extends BaseAdapter {
         LayoutInflater layoutInflater= LayoutInflater.from(context);
         View listView=layoutInflater.inflate(R.layout.expence_view,null);
         if(listView!=null){
-            EditText txt_desc=(EditText)listView.findViewById(R.id.consomation_description);
-            EditText txt_date=(EditText)listView.findViewById(R.id.consomation_date);
-            EditText txt_tot=(EditText)listView.findViewById(R.id.consomation_tot);
-            EditText txt_name=(EditText)listView.findViewById(R.id.consomation_name);
-            EditText txt_price=(EditText)listView.findViewById(R.id.consomation_prix);
-            EditText txt_qte=(EditText)listView.findViewById(R.id.consomation_qte);
-            Button btnDelete=(Button)listView.findViewById(R.id.consomation_btn_delete);
-            Button btnEdit=(Button)listView.findViewById(R.id.consomation_btn_edit);
+            TextView txt_desc=(TextView)listView.findViewById(R.id.expence_desc);
+            //TextView txt_date=(TextView)listView.findViewById(R.id.expence_date);
+            TextView txt_tot=(TextView)listView.findViewById(R.id.expence_tot);
+            TextView txt_name=(TextView)listView.findViewById(R.id.expence_name);
+            TextView txt_price=(TextView)listView.findViewById(R.id.expence_price);
+            TextView txt_qte=(TextView)listView.findViewById(R.id.expence_qte);
+            Button btnDelete=(Button)listView.findViewById(R.id.expence_btn_delete);
+            Button btnEdit=(Button)listView.findViewById(R.id.expence_btn_edit);
 
-            txt_date.setText(Globals.DISPLAY_DATE_FORMAT.format(expenceList.get(position).getDate()));
-            txt_desc.setText(expenceList.get(position).getDescription());
+            //txt_date.setText(Globals.DISPLAY_DATE_FORMAT.format(expenceList.get(position).getDate()));
+            txt_desc.setText(" "+expenceList.get(position).getDescription());
             txt_tot.setText(String.valueOf(expenceList.get(position).getPrice()* expenceList.get(position).getQte()));
-            txt_name.setText(expenceList.get(position).getName());
+            txt_name.setText(expenceList.get(position).getName().toUpperCase());
             txt_price.setText(String.valueOf(expenceList.get(position).getPrice()));
             txt_qte.setText(String.valueOf(expenceList.get(position).getQte()));
 

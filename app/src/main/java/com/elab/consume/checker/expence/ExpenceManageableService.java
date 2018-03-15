@@ -23,4 +23,5 @@ public interface ExpenceManageableService {
     public List<String> readExpencesNames(int user_id);
     public Calendar getMinDate();
     public List<MonthExpence> readMonthExpences(CommonCriterias commonCriterias);
+    public Double readTotaleExpence(CommonCriterias criterias);
 }

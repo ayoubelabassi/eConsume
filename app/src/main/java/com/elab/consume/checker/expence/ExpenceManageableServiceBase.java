@@ -95,4 +95,17 @@ public class ExpenceManageableServiceBase implements ExpenceManageableService {
         return db.readMonthExpence(req);
     }
 
+    @Override
+    public Double readTotaleExpence(CommonCriterias criterias) {
+        String req="SELECT SUM(PRICE*QTE) as 'TOTALE' FROM CONSOMATION WHERE ";
+        if(criterias.getDateDebut()!=null && criterias.getDateFin()!=null){
+            req+="(DATE BETWEEN '"+Globals.DATE_FORMAT.format(criterias.getDateDebut())+"' AND '"+
+                    Globals.DATE_FORMAT.format(criterias.getDateFin())+"')";
+        }
+        if(criterias.getUser()!=null){
+            req+=" AND USER_FK = "+String.valueOf(criterias.getUser().getId())+" ";
+        }
+        return db.readTotaleExpences(req);
+    }
+
 }

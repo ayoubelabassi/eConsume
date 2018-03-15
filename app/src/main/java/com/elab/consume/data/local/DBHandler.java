@@ -304,4 +304,17 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         return expences;
     }
+
+    public Double readTotaleExpences(String req){
+        Double tot =0.0;
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor res=db.rawQuery(req,null);
+        res.moveToFirst();
+        while(res.isAfterLast()==false)
+        {
+            tot=res.getDouble(res.getColumnIndex("TOTALE"));
+            res.moveToNext();
+        }
+        return tot;
+    }
 }

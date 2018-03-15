@@ -24,5 +24,6 @@ public class Globals {
     public static final int MIN_DISTANCE = 150;
 
 
+    public static String MONEY_FORMAT="%.2f";
     public static float MAX_AMOUNT=150;
 }
