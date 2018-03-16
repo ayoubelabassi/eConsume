@@ -106,14 +106,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        if (id == R.id.nav_daily_expence) {
             LoadDailyExpences();
-        if (id == R.id.nav_camera) {
-
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_monthly_expence) {
             loadMonthlyExpences();
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_daily_income) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_monthly_income) {
 
         } else if (id == R.id.nav_share) {
 

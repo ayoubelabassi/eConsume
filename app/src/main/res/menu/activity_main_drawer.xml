@@ -3,26 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_trending_up"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+
+
+    <group  android:checkableBehavior="single">
+        <item android:title="@string/card.label.expense">
+            <menu>
+                <item
+                    android:id="@+id/nav_daily_expence"
+                    android:icon="@drawable/ic_day"
+                    android:title="@string/expence.daily.title" />
+                <item
+                    android:id="@+id/nav_monthly_expence"
+                    android:icon="@drawable/ic_month"
+                    android:title="@string/expence.monthly.title" />
+            </menu>
+        </item>
+        <item android:title="@string/card.label.income">
+            <menu>
+                <item
+                    android:id="@+id/nav_daily_income"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="@string/income.daily.title" />
+                <item
+                    android:id="@+id/nav_monthly_income"
+                    android:icon="@drawable/ic_menu_manage"
+                    android:title="@string/income.monthly.title" />
+            </menu>
+        </item>
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/card.label.config">
         <menu>
             <item
                 android:id="@+id/nav_share"

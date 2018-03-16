@@ -19,6 +19,7 @@ import com.elab.consume.beans.main.MainActivity;
 import com.elab.consume.checker.expence.Expence;
 import com.elab.consume.tools.Globals;
 import com.tubb.smrv.SwipeHorizontalMenuLayout;
+import com.tubb.smrv.listener.SimpleSwipeFractionListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,22 +59,24 @@ public class DailyExpenceAdapter extends BaseAdapter {
     public View getView(final int position,View convertView, ViewGroup viewGroup) {
         ViewHolder viewHolder;
 
-        LayoutInflater layoutInflater= LayoutInflater.from(context);
-        convertView=layoutInflater.inflate(R.layout.expence_details,null);
+        //LayoutInflater layoutInflater= LayoutInflater.from(context);
+        convertView=LayoutInflater.from(context).inflate(R.layout.expence_details,null);
         if(convertView!=null){
             viewHolder = new ViewHolder(convertView,position);
             convertView.setTag(viewHolder);
 
+
+            final ViewHolder finalViewHolder = viewHolder;
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "Hi " + expenceList.get(position).getName(), Toast.LENGTH_SHORT).show();
+                public void onClick(View view) {
+                    finalViewHolder.sml.smoothCloseMenu();
                 }
             });
-            final ViewHolder finalViewHolder = viewHolder;
             viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    finalViewHolder.sml.smoothCloseMenu();
                     // must close normal
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -90,7 +93,7 @@ public class DailyExpenceAdapter extends BaseAdapter {
                     };
                     builder.setMessage(R.string.expence_delete_msg).setPositiveButton(R.string.yes, dialogClickListener)
                             .setNegativeButton(R.string.no, dialogClickListener).show();
-                    finalViewHolder.sml.smoothCloseMenu();
+
                     expenceList.remove(position);
                     notifyDataSetChanged();
                 }
@@ -121,10 +124,13 @@ public class DailyExpenceAdapter extends BaseAdapter {
     }
 
     boolean swipeEnableByViewType(int viewType) {
+        /*
         if(viewType == VIEW_TYPE_ENABLE)
             return true;
         else
             return viewType != VIEW_TYPE_DISABLE;
+            */
+        return true;
     }
 
     class ViewHolder{

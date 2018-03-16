@@ -5,6 +5,8 @@
     android:id="@+id/de_swip_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 

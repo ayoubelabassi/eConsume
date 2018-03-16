@@ -60,5 +60,12 @@
     <string name="card.label.expense">EXPENSES</string>
     <string name="card.label.income">INCOMES</string>
     <string name="card.label.balance">BALANCE</string>
+    <string name="card.label.config">CONFIGURATIONS</string>
+
+    <!--- Menu Items -->
+    <string name="expence.daily.title">Daily expences</string>
+    <string name="expence.monthly.title">Monthly expences</string>
+    <string name="income.monthly.title">Monthly incomes</string>
+    <string name="income.daily.title">Daily incomes</string>
 
 </resources>

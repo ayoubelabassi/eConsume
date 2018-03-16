@@ -5,10 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bordred_view"
+    sml:sml_scroller_interpolator="@android:anim/bounce_interpolator"
     sml:sml_auto_open_percent="0.2"
-    sml:sml_scroller_duration="250"
-    sml:sml_scroller_interpolator="@android:anim/bounce_interpolator">
-
+    sml:sml_scroller_duration="60">
     <include
         android:id="@id/smContentView"
         layout="@layout/expence_detail_content" />
@@ -17,8 +16,5 @@
         android:id="@id/smMenuViewLeft"
         layout="@layout/expence_left_menu" />
 
-    <include
-        android:id="@id/smMenuViewRight"
-        layout="@layout/expence_right_menu" />
 
 </com.tubb.smrv.SwipeHorizontalMenuLayout>

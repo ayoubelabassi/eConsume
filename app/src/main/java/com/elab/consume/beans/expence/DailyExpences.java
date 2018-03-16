@@ -111,6 +111,7 @@ public class DailyExpences {
             }
         });
 
+
         expence =new Expence();
         expences = new ArrayList<Expence>();
         Date date=new Date();
