@@ -2,6 +2,8 @@ package com.elab.consume.beans.expence;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,7 +11,6 @@ import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.elab.consume.checker.expence.Expence;
@@ -42,6 +43,7 @@ public class DailyExpences {
     private ImageButton btnPrevious;
     private ImageView imgUp;
     private ImageView imgDown;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     private View view;
@@ -61,6 +63,7 @@ public class DailyExpences {
         LayoutInflater li = activity.getLayoutInflater();
         view=li.inflate(R.layout.daily_expences,null);
 
+        swipeRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.de_swip_refresh_layout);
         listView=(ListView)view.findViewById(R.id.de_list_view);
         txtDate=(TextView)view.findViewById(R.id.de_date);
         txtEmptyView=(TextView)view.findViewById(R.id.de_empty_view);
@@ -84,7 +87,6 @@ public class DailyExpences {
                 openCalendarDialog();
             }
         });
-        txtEmptyView.setOnTouchListener(swipeDate);
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,7 +100,16 @@ public class DailyExpences {
             }
         });
 
+        listView.setDivider(new ColorDrawable(0xffffff));
+        listView.setDividerHeight(10);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fillConsomations(cal.getTime());
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         expence =new Expence();
         expences = new ArrayList<Expence>();
@@ -134,14 +145,11 @@ public class DailyExpences {
             expences =new ArrayList<Expence>();
             listView.setAdapter(null);
             txtEmptyView.setVisibility(View.VISIBLE);
-            listView.setVisibility(View.INVISIBLE);
         }
         else{
-
             txtEmptyView.setVisibility(View.INVISIBLE);
             listView.setVisibility(View.VISIBLE);
             dailyExpenceAdapter =new DailyExpenceAdapter(_activity, expences);
-            listView.setDivider(null);
             listView.setAdapter(dailyExpenceAdapter);
         }
         Double Expencetotale=expenceService.readTotaleExpence(criterias);
@@ -208,4 +216,5 @@ public class DailyExpences {
             return result;
         }
     };
+
 }

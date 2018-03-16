@@ -69,7 +69,7 @@ public class ExpenceEditor extends DialogFragment {
         img_txt_name=(ImageView)view.findViewById(R.id.img_txt_name);
 
 
-        txt_name.setThreshold(0);
+        txt_name.setThreshold(1);
 
         expenceService =new ExpenceManageableServiceBase(context);
 
