@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -10,6 +11,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
         android:layout_weight="0"
+        android:background="@drawable/bordred_view"
         android:orientation="horizontal">
 
         <ImageView
@@ -22,7 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/bordred_view"
             android:orientation="vertical"
             android:paddingLeft="4dp"
             android:paddingRight="4dp">
@@ -38,7 +39,7 @@
                 android:enabled="false"
                 android:inputType="text"
                 android:paddingLeft="4dp"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
             <TextView
@@ -48,25 +49,27 @@
                 android:layout_marginBottom="2dp"
                 android:layout_weight="0"
                 android:autoSizeTextType="uniform"
-                android:background="@drawable/text_view_addon"
                 android:drawableLeft="@drawable/ic_description"
-                android:drawableTint="@color/white_color"
+                android:drawableTint="@color/colorPrimary"
                 android:enabled="false"
                 android:inputType="text"
                 android:maxEms="20"
+                android:paddingBottom="2dp"
+                android:paddingTop="1dp"
                 android:singleLine="false"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/darker_gray"
                 android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
+                android:layout_marginTop="3dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="horizontal">
@@ -77,43 +80,49 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="4dp"
                         android:layout_weight="1"
-                        android:background="@drawable/text_view_addon"
                         android:drawableLeft="@drawable/ic_attach_money"
-                        android:drawableTint="@color/white_color"
+                        android:drawableTint="@color/colorPrimary"
                         android:ems="10"
                         android:enabled="false"
-                        android:gravity="center_vertical|center_horizontal"
+                        android:gravity="center_vertical"
                         android:inputType="text"
-                        android:textColor="@android:color/black" />
+                        android:paddingBottom="2dp"
+                        android:text="24.2"
+                        android:textColor="@android:color/darker_gray" />
 
                     <TextView
                         android:id="@+id/expence_qte"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
                         android:layout_weight="1"
-                        android:background="@drawable/text_view_addon"
                         android:drawableLeft="@drawable/ic_import_export"
-                        android:drawableTint="@color/white_color"
+                        android:drawableTint="@color/colorPrimary"
                         android:ems="10"
                         android:enabled="false"
-                        android:gravity="center_vertical|center_horizontal"
+                        android:gravity="center_vertical"
                         android:inputType="text"
-                        android:textColor="@android:color/black" />
+                        android:paddingBottom="2dp"
+                        android:text="4"
+                        android:textColor="@android:color/darker_gray" />
 
                     <TextView
                         android:id="@+id/expence_tot"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
                         android:layout_weight="1"
-                        android:background="@drawable/text_view_addon"
                         android:drawableLeft="@drawable/ic_functions"
-                        android:drawableTint="@color/white_color"
+                        android:drawableTint="@color/colorPrimary"
                         android:ems="10"
                         android:enabled="false"
-                        android:gravity="center_vertical|center_horizontal"
+                        android:gravity="center_vertical"
                         android:inputType="text"
-                        android:textColor="@android:color/black" />
+                        android:paddingBottom="2dp"
+                        android:text="220"
+                        android:textColor="@android:color/darker_gray" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -123,7 +132,8 @@
                     android:layout_weight="0"
                     android:backgroundTint="@android:color/holo_red_light"
                     android:gravity="right"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <Button
                         android:id="@+id/expence_btn_edit"
@@ -144,7 +154,20 @@
                         android:background="@android:color/holo_red_light"
                         android:foreground="@drawable/ic_delete"
                         android:foregroundTint="@color/white_color" />
+
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/ev_txt_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="MAD"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

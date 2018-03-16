@@ -6,7 +6,7 @@
     <color name="colorAccent">#4ac7ed</color>
     <color name="colorClicked">#2689a7</color>
     <color name="white_color">#ffffff</color>
-    <color name="border_inputs">#BBBBBB</color>
+    <color name="border_inputs">#bbbbbb</color>
 
     <!-- Chart Colors -->
     <color name="colorDanger">#ea5d5d</color>
