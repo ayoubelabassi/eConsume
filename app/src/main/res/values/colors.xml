@@ -11,5 +11,5 @@
     <!-- Chart Colors -->
     <color name="colorDanger">#ea5d5d</color>
     <color name="colorAverage">#f9e800</color>
-    <color name="colorSuccess">#69d157</color>
+    <color name="colorSuccess">#b7e9ae</color>
 </resources>

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,9 @@ import com.elab.consume.beans.main.MainActivity;
 import com.elab.consume.checker.expence.Expence;
 import com.elab.consume.tools.Globals;
 import com.tubb.smrv.SwipeHorizontalMenuLayout;
+import com.tubb.smrv.SwipeMenuLayout;
 import com.tubb.smrv.listener.SimpleSwipeFractionListener;
+import com.tubb.smrv.listener.SwipeSwitchListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +60,7 @@ public class DailyExpenceAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position,View convertView, ViewGroup viewGroup) {
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
 
         //LayoutInflater layoutInflater= LayoutInflater.from(context);
         convertView=LayoutInflater.from(context).inflate(R.layout.expence_details,null);
@@ -82,20 +85,17 @@ public class DailyExpenceAdapter extends BaseAdapter {
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                ((MainActivity)context).dailyExpences.deleteConsomation(position);
-                                break;
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                break;
-                        }
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    ((MainActivity)context).dailyExpences.deleteConsomation(position);
+                                    break;
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    break;
+                            }
                         }
                     };
                     builder.setMessage(R.string.expence_delete_msg).setPositiveButton(R.string.yes, dialogClickListener)
                             .setNegativeButton(R.string.no, dialogClickListener).show();
-
-                    expenceList.remove(position);
-                    notifyDataSetChanged();
                 }
             });
 
@@ -110,6 +110,29 @@ public class DailyExpenceAdapter extends BaseAdapter {
                     add_consomation.show(((Activity)context).getFragmentManager(),"Edit Expence");
                 }
             });
+            viewHolder.sml.setSwipeListener(new SwipeSwitchListener() {
+                @Override
+                public void beginMenuClosed(SwipeMenuLayout swipeMenuLayout) {
+                }
+
+                @Override
+                public void beginMenuOpened(SwipeMenuLayout swipeMenuLayout) {
+                    new android.os.Handler().postDelayed(new Runnable() {
+                         public void run() {
+                             viewHolder.sml.smoothCloseMenu();
+                         }
+                     },1200);
+                }
+
+                @Override
+                public void endMenuClosed(SwipeMenuLayout swipeMenuLayout) {
+                }
+
+                @Override
+                public void endMenuOpened(SwipeMenuLayout swipeMenuLayout) {
+                }
+            });
+
             viewHolder.txt_Unit.setText(Globals.UNIT_MONEY);
             viewHolder.txt_desc.setText(" "+expenceList.get(position).getDescription());
             viewHolder.txt_tot.setText(String.valueOf(expenceList.get(position).getPrice()* expenceList.get(position).getQte()));

@@ -11,10 +11,7 @@
     <include
         android:id="@id/smContentView"
         layout="@layout/expence_detail_content" />
-
     <include
         android:id="@id/smMenuViewLeft"
         layout="@layout/expence_left_menu" />
-
-
 </com.tubb.smrv.SwipeHorizontalMenuLayout>

@@ -2,6 +2,7 @@ package com.elab.consume.beans.main;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.elab.consume.R;
 import com.elab.consume.beans.expence.DailyExpences;
@@ -19,16 +21,28 @@ import com.elab.consume.beans.expence.ExpenceEditor;
 import com.elab.consume.beans.expence.MonthlyExpences;
 import com.elab.consume.tools.Globals;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    /**
+     * Layout components
+     */
     private FloatingActionButton fab;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private FrameLayout mainFrame;
+
+    private TextView txtProfileName;
+    private CircleImageView imgProfile;
+
+    /**
+     * Data classes
+     */
     public DailyExpences dailyExpences;
-    private MonthlyExpences monthlyExpences;
+    public MonthlyExpences monthlyExpences;
 
     private float x1,x2;
     @Override
@@ -49,6 +63,10 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         mainFrame=(FrameLayout) findViewById(R.id.mainFrameLayout);
+
+        View navView= LayoutInflater.from(this).inflate(R.layout.nav_header_main,null);
+        txtProfileName=(TextView)navView.findViewById(R.id.profile_name);
+        imgProfile=(CircleImageView)navView.findViewById(R.id.profile_image);
     }
 
     @Override
@@ -66,6 +84,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         navigationView.setNavigationItemSelectedListener(this);
+        txtProfileName.setText(Globals.CURRENT_USER.getFirst_name()+" "+Globals.CURRENT_USER.getLast_name());
         LoadDailyExpences();
     }
 
@@ -82,7 +101,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -92,12 +111,6 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -129,6 +142,7 @@ public class MainActivity extends AppCompatActivity
         mainFrame.removeAllViews();
         dailyExpences = new DailyExpences();
         mainFrame.addView(dailyExpences.onCreate(this));
+
     }
     public void loadMonthlyExpences(){
         dailyExpences=null;
